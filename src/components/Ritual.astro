@@ -1,0 +1,165 @@
+---
+const outfitCards = [
+  {
+    label: 'Casual',
+    score: 94,
+    weather: '72° Sunny',
+    colors: ['#E8E4DE', '#4A5568', '#2D3748', '#8B7355'],
+  },
+  {
+    label: 'Work',
+    score: 91,
+    weather: '68° Clear',
+    colors: ['#FFFFFF', '#1A202C', '#4A5568', '#2D3748'],
+  },
+  {
+    label: 'Evening',
+    score: 88,
+    weather: '65° Cool',
+    colors: ['#1A202C', '#2D3748', '#4A5568', '#1A202C'],
+  },
+];
+
+const timeline = [
+  { time: '9:00 AM', title: 'Open app', desc: 'Your picks are ready' },
+  { time: '9:01 AM', title: 'Pick a look', desc: 'Swipe through options' },
+  { time: '9:02 AM', title: 'Get dressed', desc: 'Done. Go live your life.' },
+];
+---
+
+<section id="how-it-works" class="relative z-20 -mt-16">
+  <div class="bg-white rounded-t-[3rem] pt-24 pb-48">
+    <div class="max-w-6xl mx-auto px-6">
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <p class="kicker mb-4">How it works</p>
+        <h2 class="font-display text-4xl md:text-6xl lg:text-7xl tracking-[-0.03em] text-dark">
+          Pick. Wear. Done.
+        </h2>
+      </div>
+
+      <!-- Card Fan -->
+      <div id="card-fan" class="relative h-[320px] md:h-[380px] mb-20">
+        <div class="card-fan-container relative w-full h-full flex items-center justify-center">
+          {outfitCards.map((card, i) => (
+            <div
+              class="outfit-card absolute w-[160px] md:w-[180px] bg-white rounded-2xl shadow-xl border border-gray-100 p-4 transition-all duration-700"
+              data-index={i}
+              style={`z-index: ${10 + i};`}
+            >
+              <!-- Card Header -->
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-[10px] font-semibold uppercase tracking-wider text-gray-500">
+                  {card.label}
+                </span>
+                <span class="bg-slate-dark text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                  {card.score}
+                </span>
+              </div>
+
+              <!-- Color Grid -->
+              <div class="grid grid-cols-2 gap-2 mb-3">
+                {card.colors.map((color) => (
+                  <div
+                    class="aspect-square rounded-lg"
+                    style={`background-color: ${color};`}
+                  ></div>
+                ))}
+              </div>
+
+              <!-- Weather -->
+              <div class="text-[11px] text-gray-400 text-center">
+                {card.weather}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="max-w-2xl mx-auto">
+        <div class="grid grid-cols-3 gap-4 md:gap-8">
+          {timeline.map((step, i) => (
+            <div class="reveal text-center" style={`--delay: ${i * 0.15}s;`}>
+              <div class="text-slate font-semibold text-sm mb-1">{step.time}</div>
+              <div class="font-display text-lg md:text-xl font-semibold text-dark mb-1">{step.title}</div>
+              <div class="text-sm text-gray-500">{step.desc}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Default stacked state */
+  .outfit-card {
+    transform: rotate(-2deg) translateY(0);
+  }
+
+  .outfit-card[data-index="0"] {
+    transform: rotate(-2deg);
+  }
+
+  .outfit-card[data-index="1"] {
+    transform: rotate(0deg);
+  }
+
+  .outfit-card[data-index="2"] {
+    transform: rotate(2deg);
+  }
+
+  /* Fanned out state */
+  .card-fan-container.fanned .outfit-card[data-index="0"] {
+    transform: rotate(-10deg) translateX(-140px) translateY(20px);
+  }
+
+  .card-fan-container.fanned .outfit-card[data-index="1"] {
+    transform: rotate(0deg) translateX(0) translateY(0);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+
+  .card-fan-container.fanned .outfit-card[data-index="2"] {
+    transform: rotate(10deg) translateX(140px) translateY(20px);
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 640px) {
+    .card-fan-container.fanned .outfit-card[data-index="0"] {
+      transform: rotate(-10deg) translateX(-80px) translateY(15px);
+    }
+
+    .card-fan-container.fanned .outfit-card[data-index="2"] {
+      transform: rotate(10deg) translateX(80px) translateY(15px);
+    }
+  }
+
+  .outfit-card {
+    transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.7s ease;
+  }
+</style>
+
+<script>
+  const cardFan = document.getElementById('card-fan');
+  const container = cardFan?.querySelector('.card-fan-container');
+
+  if (cardFan && container) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.3) {
+            container.classList.add('fanned');
+          }
+        });
+      },
+      {
+        threshold: [0.3, 0.5, 0.8],
+        rootMargin: '0px',
+      }
+    );
+
+    observer.observe(cardFan);
+  }
+</script>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://styleum.app/sitemap.xml

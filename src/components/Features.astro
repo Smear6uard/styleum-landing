@@ -1,0 +1,63 @@
+---
+const features = [
+  {
+    number: '01',
+    title: 'No more staring',
+    description: '20 minutes looking at clothes? Gone. 4 options. Pick one. Go live your life.',
+  },
+  {
+    number: '02',
+    title: 'Wear what you own',
+    description: "That shirt buried in the back? It'll show up. Nothing collects dust anymore.",
+  },
+  {
+    number: '03',
+    title: 'Weather-aware',
+    description: "No jackets in July. No freezing in a t-shirt. Every pick checks the forecast.",
+  },
+  {
+    number: '04',
+    title: 'Build the streak',
+    description: "47 days of not hating your outfit. Start to actually like getting dressed.",
+  },
+];
+---
+
+<section id="features" class="relative z-30 -mt-16">
+  <div class="bg-slate rounded-t-[3rem] pt-24 pb-48">
+    <div class="max-w-6xl mx-auto px-6">
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <p class="kicker mb-4 text-white/60">Why Styleum</p>
+        <h2 class="font-display text-4xl md:text-6xl lg:text-7xl tracking-[-0.03em] text-white">
+          Less thinking.<br />More living.
+        </h2>
+      </div>
+
+      <!-- Features Grid -->
+      <div class="grid md:grid-cols-2 gap-8 md:gap-12">
+        {features.map((feature, i) => (
+          <div
+            class="reveal border-l-2 border-white/20 pl-6 md:pl-8"
+            style={`--delay: ${i * 0.1}s;`}
+          >
+            <!-- Big Faded Number -->
+            <div class="text-[4rem] md:text-[5rem] font-display font-bold text-white/10 leading-none -mb-4">
+              {feature.number}
+            </div>
+
+            <!-- Title -->
+            <h3 class="font-display text-2xl md:text-3xl font-semibold text-white mb-3">
+              {feature.title}
+            </h3>
+
+            <!-- Description -->
+            <p class="text-white/70 text-lg leading-relaxed">
+              {feature.description}
+            </p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

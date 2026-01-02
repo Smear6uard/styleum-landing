@@ -1,0 +1,87 @@
+---
+const faqs = [
+  {
+    question: 'Will it actually match my style?',
+    answer: 'Yes. Styleum learns from what you wear and what you skip. The more you use it, the better it gets at understanding your preferences. Most users see noticeably better suggestions within the first week.',
+  },
+  {
+    question: 'What if I only have 20 items?',
+    answer: "That's plenty. Some of the best-dressed people have minimal wardrobes. Styleum works with whatever you have and helps you see new combinations you might have missed.",
+  },
+  {
+    question: 'How long does setup take?',
+    answer: 'About 2 minutes. Take a few photos of your clothes, and you are ready to go. You can add more items anytime.',
+  },
+  {
+    question: 'Can I use it for specific occasions?',
+    answer: 'Absolutely. Pro users can request outfits for specific events—date night, job interview, casual Friday. Styleum factors in the context along with weather and your style.',
+  },
+];
+---
+
+<section id="faq" class="relative z-60 -mt-16">
+  <div class="bg-white rounded-t-[3rem] pt-24 pb-48">
+    <div class="max-w-3xl mx-auto px-6">
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <p class="kicker mb-4">FAQ</p>
+        <h2 class="font-display text-4xl md:text-6xl lg:text-7xl tracking-[-0.03em] text-dark">
+          You're probably wondering...
+        </h2>
+      </div>
+
+      <!-- FAQ Accordion -->
+      <div class="space-y-4">
+        {faqs.map((faq, i) => (
+          <div
+            class="faq-item reveal border-b border-border pb-4"
+            style={`--delay: ${i * 0.1}s;`}
+          >
+            <button
+              class="faq-trigger w-full flex items-center justify-between text-left py-4 group"
+              aria-expanded="false"
+            >
+              <span class="font-display text-xl md:text-2xl font-semibold text-dark pr-8">
+                {faq.question}
+              </span>
+              <span class="faq-icon text-2xl text-slate flex-shrink-0">
+                +
+              </span>
+            </button>
+            <div class="faq-content">
+              <div>
+                <p class="text-gray-600 pb-4 leading-relaxed">
+                  {faq.answer}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const faqItems = document.querySelectorAll('.faq-item');
+
+  faqItems.forEach((item) => {
+    const trigger = item.querySelector('.faq-trigger');
+
+    trigger?.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+
+      // Close all other items
+      faqItems.forEach((other) => {
+        if (other !== item) {
+          other.classList.remove('open');
+          other.querySelector('.faq-trigger')?.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Toggle current item
+      item.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', (!isOpen).toString());
+    });
+  });
+</script>

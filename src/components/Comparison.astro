@@ -1,0 +1,66 @@
+---
+const styleumFeatures = [
+  'Your wardrobe',
+  'Daily ritual',
+  'Learns your taste',
+  'Weather-aware',
+];
+
+const otherAppsFeatures = [
+  'New purchases',
+  'Occasional use',
+  'Generic picks',
+  'Context-blind',
+];
+---
+
+<section id="comparison" class="relative z-40 -mt-16">
+  <div class="bg-white rounded-t-[3rem] pt-24 pb-48">
+    <div class="max-w-5xl mx-auto px-6">
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <p class="kicker mb-4">The difference</p>
+        <h2 class="font-display text-4xl md:text-6xl lg:text-7xl tracking-[-0.03em] text-dark">
+          We're not a shopping app.
+        </h2>
+      </div>
+
+      <!-- Comparison Cards -->
+      <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+        <!-- Styleum Card -->
+        <div class="reveal bg-light rounded-3xl p-8 md:p-10 shadow-lg" style="--delay: 0.1s;">
+          <h3 class="font-display text-2xl font-semibold text-dark mb-6">
+            Styleum
+          </h3>
+          <ul class="space-y-4">
+            {styleumFeatures.map((feature) => (
+              <li class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-slate flex items-center justify-center text-white text-sm font-bold">
+                  +
+                </span>
+                <span class="text-dark font-medium">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <!-- Other Apps Card -->
+        <div class="reveal bg-dark rounded-3xl p-8 md:p-10" style="--delay: 0.2s;">
+          <h3 class="font-display text-2xl font-semibold text-white/60 mb-6">
+            Most Apps
+          </h3>
+          <ul class="space-y-4">
+            {otherAppsFeatures.map((feature) => (
+              <li class="flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white/40 text-sm font-bold">
+                  -
+                </span>
+                <span class="text-white/40">{feature}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

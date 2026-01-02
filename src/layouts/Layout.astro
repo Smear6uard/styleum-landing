@@ -1,0 +1,190 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  type?: 'website' | 'article';
+}
+
+const {
+  title,
+  description,
+  image = '/og-image.png',
+  type = 'website',
+} = Astro.props;
+
+const siteName = 'Styleum';
+const siteUrl = 'https://styleum.app';
+const fullTitle = title === siteName ? title : `${title} — ${siteName}`;
+const canonicalURL = new URL(Astro.url.pathname, siteUrl);
+const imageUrl = new URL(image, siteUrl).href;
+
+// FAQPage structured data
+const faqData = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How does Styleum work?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Styleum learns your wardrobe and personal style. Every morning at 9AM, it generates 4 curated outfit suggestions based on your clothes, the weather, and your schedule."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to buy new clothes?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Styleum works with the clothes you already own. Simply photograph your wardrobe, and Styleum builds outfits from your existing pieces."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is Styleum free?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, Styleum offers a free plan with 4 daily outfit suggestions. Pro users get unlimited outfits, occasion-based styling, and advanced wardrobe analytics for $6.99/month."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What platforms is Styleum available on?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Styleum is available on iOS and Android. Download it from the App Store or Google Play."
+      }
+    }
+  ]
+};
+
+// WebSite structured data
+const websiteData = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": siteName,
+  "url": siteUrl,
+  "description": "AI-powered outfit planner that helps you decide what to wear using your own wardrobe.",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": `${siteUrl}/search?q={search_term_string}`,
+    "query-input": "required name=search_term_string"
+  }
+};
+
+// SoftwareApplication structured data
+const appData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Styleum",
+  "operatingSystem": "iOS, Android",
+  "applicationCategory": "LifestyleApplication",
+  "description": description,
+  "offers": {
+    "@type": "AggregateOffer",
+    "lowPrice": "0",
+    "highPrice": "6.99",
+    "priceCurrency": "USD",
+    "offerCount": "2"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.8",
+    "ratingCount": "2400"
+  }
+};
+
+// Organization structured data
+const orgData = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Styleum",
+  "url": siteUrl,
+  "logo": `${siteUrl}/logo.png`,
+  "description": "AI-powered outfit planner that helps you decide what to wear using your own wardrobe.",
+  "sameAs": [
+    "https://instagram.com/styleum",
+    "https://tiktok.com/@styleum"
+  ]
+};
+---
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Fonts - Fontshare -->
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=satoshi@400,500,700&display=swap" rel="stylesheet" />
+
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL.href} />
+    <meta name="keywords" content="outfit planner, wardrobe app, what to wear, daily outfit, fashion AI, closet organizer, style assistant" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@styleum" />
+    <meta name="twitter:url" content={canonicalURL.href} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+
+    <!-- Additional -->
+    <meta name="author" content={siteName} />
+    <meta name="theme-color" content="#111111" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+
+    <!-- Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(orgData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(websiteData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(appData)} />
+    <script type="application/ld+json" set:html={JSON.stringify(faqData)} />
+
+    <slot name="head" />
+  </head>
+
+  <body class="bg-white text-text-primary font-body antialiased">
+    <!-- Noise Overlay -->
+    <div class="noise-overlay" aria-hidden="true"></div>
+
+    <slot />
+
+    <!-- Scroll Animation Observer -->
+    <script>
+      const animatedElements = document.querySelectorAll('.reveal, .animate-on-scroll, .stagger-children');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      animatedElements.forEach(el => observer.observe(el));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+---
+const freeFeatures = [
+  '4 daily outfits',
+  'Weather-aware',
+  '50 items',
+];
+
+const proFeatures = [
+  'Unlimited outfits',
+  'Unlimited wardrobe',
+  'Occasion styling',
+  'Style analytics',
+];
+---
+
+<section id="pricing" class="relative z-50 -mt-16">
+  <div class="bg-light rounded-t-[3rem] pt-24 pb-48">
+    <div class="max-w-5xl mx-auto px-6">
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <p class="kicker mb-4">Pricing</p>
+        <h2 class="font-display text-4xl md:text-6xl lg:text-7xl tracking-[-0.03em] text-dark">
+          Start free.
+        </h2>
+      </div>
+
+      <!-- Pricing Cards -->
+      <div class="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+        <!-- Free Card -->
+        <div class="reveal bg-white rounded-3xl p-8 md:p-10 border border-border shadow-lg" style="--delay: 0.1s;">
+          <div class="mb-6">
+            <span class="text-sm font-semibold text-slate-light uppercase tracking-wide">Free</span>
+          </div>
+
+          <div class="mb-6">
+            <span class="font-display text-5xl font-bold text-dark">$0</span>
+            <span class="text-slate-light ml-1">/forever</span>
+          </div>
+
+          <ul class="space-y-3 mb-8">
+            {freeFeatures.map((feature) => (
+              <li class="flex items-center gap-3 text-gray-600">
+                <svg class="w-5 h-5 text-slate" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href="#"
+            class="block w-full py-3.5 text-center font-semibold border-2 border-dark text-dark rounded-full hover:bg-dark hover:text-white transition"
+          >
+            Download
+          </a>
+        </div>
+
+        <!-- Pro Card -->
+        <div class="reveal bg-dark rounded-3xl p-8 md:p-10 relative" style="--delay: 0.2s;">
+          <!-- Popular Badge -->
+          <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+            <span class="bg-slate text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full">
+              Popular
+            </span>
+          </div>
+
+          <div class="mb-6">
+            <span class="text-sm font-semibold text-slate-light uppercase tracking-wide">Pro</span>
+          </div>
+
+          <div class="mb-6">
+            <span class="font-display text-5xl font-bold text-white">$6.99</span>
+            <span class="text-slate-light ml-1">/month</span>
+          </div>
+
+          <ul class="space-y-3 mb-8">
+            {proFeatures.map((feature) => (
+              <li class="flex items-center gap-3 text-white/80">
+                <svg class="w-5 h-5 text-slate" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          <a
+            href="#"
+            class="block w-full py-3.5 text-center font-semibold bg-slate text-white rounded-full hover:bg-slate-dark transition"
+          >
+            Start Pro
+          </a>
+        </div>
+      </div>
+
+      <!-- Trust Note -->
+      <p class="text-center text-slate-light text-sm mt-8">
+        Free forever · 2-minute setup · No credit card
+      </p>
+    </div>
+  </div>
+</section>

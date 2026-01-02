@@ -1,0 +1,134 @@
+---
+---
+
+<header
+  id="header"
+  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
+  data-scrolled="false"
+>
+  <div class="max-w-7xl mx-auto px-6">
+    <nav class="flex items-center justify-between h-16 md:h-20">
+      <!-- Logo + Tagline -->
+      <div class="flex items-center gap-4">
+        <a href="/" class="text-xl font-display font-bold header-text transition-colors">
+          Styleum
+        </a>
+        <span class="hidden sm:block text-[10px] font-semibold tracking-widest uppercase header-tagline transition-colors">
+          Outfit picks at 9AM
+        </span>
+      </div>
+
+      <!-- Nav Links (desktop) -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#how-it-works" class="text-sm header-link transition-colors">
+          How it works
+        </a>
+        <a href="#pricing" class="text-sm header-link transition-colors">
+          Pricing
+        </a>
+      </div>
+
+      <!-- CTA Button with 9AM Badge -->
+      <a
+        href="#"
+        class="header-cta flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-full transition-all"
+      >
+        <span class="header-cta-badge text-xs font-bold">9AM</span>
+        <span>Get started</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  /* Default: Transparent over dark hero */
+  header[data-scrolled="false"] {
+    background-color: transparent;
+  }
+
+  header[data-scrolled="false"] .header-text {
+    color: #FFFFFF;
+  }
+
+  header[data-scrolled="false"] .header-tagline {
+    color: #9AA3AA;
+  }
+
+  header[data-scrolled="false"] .header-link {
+    color: #9AA3AA;
+  }
+
+  header[data-scrolled="false"] .header-link:hover {
+    color: #FFFFFF;
+  }
+
+  header[data-scrolled="false"] .header-cta {
+    color: #FFFFFF;
+    background-color: #3F474F;
+  }
+
+  header[data-scrolled="false"] .header-cta-badge {
+    color: #9AA3AA;
+  }
+
+  header[data-scrolled="false"] .header-cta:hover {
+    background-color: #4a545c;
+  }
+
+  /* Scrolled: White background */
+  header[data-scrolled="true"] {
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid #E5E7EB;
+  }
+
+  header[data-scrolled="true"] .header-text {
+    color: #111111;
+  }
+
+  header[data-scrolled="true"] .header-tagline {
+    color: #6F7C86;
+  }
+
+  header[data-scrolled="true"] .header-link {
+    color: #6B7280;
+  }
+
+  header[data-scrolled="true"] .header-link:hover {
+    color: #111111;
+  }
+
+  header[data-scrolled="true"] .header-cta {
+    color: #FFFFFF;
+    background-color: #3F474F;
+  }
+
+  header[data-scrolled="true"] .header-cta-badge {
+    color: #9AA3AA;
+  }
+
+  header[data-scrolled="true"] .header-cta:hover {
+    background-color: #4a545c;
+  }
+</style>
+
+<script>
+  const header = document.getElementById('header');
+  const hero = document.getElementById('hero');
+
+  if (header && hero) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          header.dataset.scrolled = (!entry.isIntersecting).toString();
+        });
+      },
+      {
+        threshold: 0,
+        rootMargin: '-80px 0px 0px 0px',
+      }
+    );
+
+    observer.observe(hero);
+  }
+</script>
