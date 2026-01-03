@@ -1,0 +1,83 @@
+---
+// PhoneDemo.astro - Three-column layout: Copy | Video | Phone
+---
+
+<section id="app-demo" class="relative z-30 -mt-16">
+  <div class="bg-[#0a0a0a] rounded-t-[3rem] pt-24 pb-32 shadow-[0_-10px_60px_rgba(0,0,0,0.08)]">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+
+      <!-- Three-column grid -->
+      <div class="grid lg:grid-cols-[1fr_1.4fr_1fr] gap-8 lg:gap-12 items-center">
+
+        <!-- LEFT: Editorial Copy -->
+        <div class="text-center lg:text-left order-1">
+          <p class="text-xs uppercase tracking-[0.2em] text-white/40 font-semibold mb-4">
+            See it happen
+          </p>
+          <h2 class="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-white leading-tight mb-4">
+            Your morning,<br/>solved.
+          </h2>
+          <p class="text-white/50 text-base lg:text-lg leading-relaxed">
+            Every morning at 9AM. Your wardrobe, finally working for you.
+          </p>
+        </div>
+
+        <!-- CENTER: Video Placeholder -->
+        <div class="order-2 lg:order-2">
+          <div class="relative aspect-video bg-[#1a1a1a] rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.4)] overflow-hidden">
+            <!-- Video element (for when video is available) -->
+            <video
+              class="absolute inset-0 w-full h-full object-cover"
+              autoplay muted loop playsinline
+            >
+              <source src="/videos/app-demo.mp4" type="video/mp4">
+            </video>
+
+            <!-- Placeholder overlay (shown when no video) -->
+            <div class="absolute inset-0 flex flex-col items-center justify-center bg-[#1a1a1a]">
+              <!-- Play icon -->
+              <div class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4">
+                <svg class="w-6 h-6 text-white/60 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </div>
+              <p class="text-white/40 text-sm">Video preview coming soon</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Phone Mockup -->
+        <div class="order-3 flex justify-center lg:justify-end">
+          <div class="w-[180px] sm:w-[200px]">
+            <!-- Phone bezel -->
+            <div class="bg-gradient-to-b from-[#2a2a2a] to-[#1a1a1a] rounded-[2rem] p-[3px] shadow-[0_20px_50px_rgba(0,0,0,0.4)]">
+              <div class="aspect-[9/19.5] bg-[#0a0a0a] rounded-[1.8rem] overflow-hidden relative flex items-center justify-center p-4">
+
+                <!-- Outfit Card UI -->
+                <div class="w-full max-w-[140px] bg-white rounded-xl p-3 shadow-lg">
+                  <!-- Card Header -->
+                  <div class="flex justify-between items-center mb-2">
+                    <span class="text-[9px] uppercase tracking-wide text-gray-400 font-semibold">Casual</span>
+                    <span class="text-[9px] bg-[#111] text-white px-2 py-0.5 rounded-full font-bold">94</span>
+                  </div>
+                  <!-- Color Grid -->
+                  <div class="grid grid-cols-2 gap-1.5 mb-2">
+                    <div class="aspect-square bg-[#E8E4E0] rounded-md"></div>
+                    <div class="aspect-square bg-[#5C6670] rounded-md"></div>
+                    <div class="aspect-square bg-[#2C3E50] rounded-md"></div>
+                    <div class="aspect-square bg-[#8B7355] rounded-md"></div>
+                  </div>
+                  <!-- Weather -->
+                  <p class="text-[9px] text-gray-400 text-center">72° Sunny</p>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
