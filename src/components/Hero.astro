@@ -53,13 +53,13 @@
         requestAnimationFrame(() => {
           const scrollY = window.scrollY;
           const heroHeight = hero.offsetHeight;
-          // Fade out between 0% and 60% of hero height
-          const fadeEnd = heroHeight * 0.6;
+          // Fade out between 0% and 40% of hero height (faster, more dramatic)
+          const fadeEnd = heroHeight * 0.4;
           const progress = Math.min(scrollY / fadeEnd, 1);
 
           // Calculate opacity and transform
           const opacity = 1 - progress;
-          const translateY = progress * -30; // Shift up by 30px max
+          const translateY = progress * -60; // Shift up by 60px max (more noticeable parallax)
 
           heroContent.style.opacity = String(Math.max(opacity, 0));
           heroContent.style.transform = `translateY(${translateY}px)`;
