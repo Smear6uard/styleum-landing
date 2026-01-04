@@ -20,7 +20,7 @@
 
       <!-- Nav Links (desktop) -->
       <div class="hidden md:flex items-center gap-8">
-        <a href="#how-it-works" class="text-sm header-link transition-colors">
+        <a href="#product-showcase" class="text-sm header-link transition-colors">
           How it works
         </a>
       </div>
@@ -70,12 +70,15 @@
 
   header[data-scrolled="false"] .header-cta:hover {
     background-color: #4a545c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
-  /* Scrolled: White background */
+  /* Scrolled: Frosted glass background */
   header[data-scrolled="true"] {
-    background-color: rgba(255, 255, 255, 0.95);
+    background-color: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid #E5E7EB;
   }
 
@@ -106,6 +109,8 @@
 
   header[data-scrolled="true"] .header-cta:hover {
     background-color: #4a545c;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 </style>
 

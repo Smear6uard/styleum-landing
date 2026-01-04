@@ -1,8 +1,8 @@
 ---
-// PhoneDemo.astro - 3-phone timeline: notification → cards → chosen
+// ProductShowcase.astro - 3-phone timeline + value props
 ---
 
-<section id="phone-demo" class="relative z-30 -mt-16">
+<section id="product-showcase" class="relative z-30 -mt-16">
   <div class="bg-white rounded-t-[3rem] pt-20 pb-32">
     <div class="max-w-6xl mx-auto px-6 lg:px-12">
 
@@ -62,6 +62,49 @@
           </div>
           <!-- Label below phone -->
           <p class="text-center text-xs text-black/40 mt-3 font-medium">Wear it</p>
+        </div>
+
+      </div>
+
+      <!-- Why It Works -->
+      <p class="text-xs uppercase tracking-[0.3em] text-black/40 font-medium text-center mt-20 mb-6">
+        Why it works
+      </p>
+      <h2 class="text-6xl md:text-7xl lg:text-8xl font-display font-bold text-black tracking-tight text-center mb-20 md:mb-24">
+        It just gets you.
+      </h2>
+
+      <!-- Value Props Grid -->
+      <div class="grid md:grid-cols-3 gap-8 md:gap-12 max-w-4xl mx-auto">
+
+        <div class="text-center">
+          <p class="text-sm text-black/40 tracking-wider font-medium mb-4">01</p>
+          <h3 class="font-display text-lg md:text-xl font-semibold text-[#111111] mb-3">
+            Learns your taste
+          </h3>
+          <p class="text-black/60 text-sm md:text-base">
+            Your style, learned over time. Not generic. Yours.
+          </p>
+        </div>
+
+        <div class="text-center">
+          <p class="text-sm text-black/40 tracking-wider font-medium mb-4">02</p>
+          <h3 class="font-display text-lg md:text-xl font-semibold text-[#111111] mb-3">
+            Resurfaces forgotten pieces
+          </h3>
+          <p class="text-black/60 text-sm md:text-base">
+            That shirt buried in the back? It'll show up. Nothing collects dust.
+          </p>
+        </div>
+
+        <div class="text-center">
+          <p class="text-sm text-black/40 tracking-wider font-medium mb-4">03</p>
+          <h3 class="font-display text-lg md:text-xl font-semibold text-[#111111] mb-3">
+            Weather-checked
+          </h3>
+          <p class="text-black/60 text-sm md:text-base">
+            No jackets in July. No freezing in a t-shirt. Every pick checks the forecast.
+          </p>
         </div>
 
       </div>
