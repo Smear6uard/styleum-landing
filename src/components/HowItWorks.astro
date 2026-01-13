@@ -1,0 +1,101 @@
+---
+// HowItWorks.astro - Phone-centered section with value props
+const steps = [
+  { label: 'Notification', placeholder: 'Detail 1' },
+  { label: 'Pick your look', placeholder: 'App screen', isPhone: true },
+  { label: 'Wear it', placeholder: 'Detail 2' },
+];
+
+const valueProps = [
+  {
+    number: '01',
+    title: 'Learns your taste',
+    description: 'Your style, learned over time. Not generic. Yours.',
+  },
+  {
+    number: '02',
+    title: 'Resurfaces forgotten pieces',
+    description: "That shirt buried in the back? It'll show up. Nothing collects dust.",
+  },
+  {
+    number: '03',
+    title: 'Weather-checked',
+    description: 'No jackets in July. No freezing in a t-shirt. Every pick checks the forecast.',
+  },
+];
+---
+
+<section id="how-it-works" class="relative z-30 -mt-8">
+  <div class="bg-[#F5F2EE] rounded-t-[3rem] pt-20 pb-24">
+    <div class="max-w-5xl mx-auto px-6 lg:px-12">
+
+      <!-- Section Header -->
+      <div class="text-center mb-16">
+        <p class="text-xs uppercase tracking-[0.2em] text-[#3D3329] font-semibold mb-4">
+          See it happen
+        </p>
+        <h2 class="font-display text-3xl sm:text-4xl md:text-5xl font-bold text-[#111111] leading-tight mb-4">
+          Your morning, solved.
+        </h2>
+        <p class="text-[#6B6B6B] text-base md:text-lg max-w-md mx-auto">
+          Every morning at 9AM. Your wardrobe, finally working for you.
+        </p>
+      </div>
+
+      <!-- 3-column grid: image - phone - image -->
+      <div class="grid grid-cols-1 md:grid-cols-[1fr_1.3fr_1fr] gap-6 lg:gap-10 items-center mb-20">
+
+        {steps.map((step, i) => (
+          <div class={`flex flex-col items-center gap-4 ${step.isPhone ? '' : 'hidden md:flex'}`}>
+            {step.isPhone ? (
+              <!-- Phone Frame -->
+              <div class="bg-[#1A1816] rounded-[2.5rem] p-2 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.2)]">
+                <div class="aspect-[9/19.5] w-[180px] sm:w-[200px] lg:w-[220px] bg-[#0a0a0a] rounded-[2rem] overflow-hidden relative">
+                  <!-- Placeholder for app screenshot -->
+                  <div class="absolute inset-0 flex items-center justify-center">
+                    <span class="text-white/20 text-xs">{step.placeholder}</span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <!-- Flanking image -->
+              <div class="aspect-[4/5] w-full max-w-[200px] bg-[#E8E4DE] rounded-xl overflow-hidden relative">
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <span class="text-[#9A9A9A] text-xs">{step.placeholder}</span>
+                </div>
+              </div>
+            )}
+            <span class="text-sm text-[#6B6B6B] font-medium">{step.label}</span>
+          </div>
+        ))}
+
+      </div>
+
+      <!-- Why It Works Section -->
+      <div class="border-t border-[#E8E4DE] pt-16">
+        <p class="text-xs uppercase tracking-[0.3em] text-[#3D3329] font-medium text-center mb-6">
+          Why it works
+        </p>
+        <h2 class="text-5xl md:text-6xl lg:text-7xl font-display font-bold text-black tracking-tight text-center mb-16 md:mb-20">
+          It just gets you.
+        </h2>
+
+        <!-- Value Props Grid -->
+        <div class="grid md:grid-cols-3 gap-8 md:gap-12 max-w-4xl mx-auto">
+          {valueProps.map((prop) => (
+            <div class="text-center">
+              <p class="text-sm text-[#3D3329] tracking-wider font-medium mb-4">{prop.number}</p>
+              <h3 class="font-display text-lg md:text-xl font-semibold text-[#111111] mb-3">
+                {prop.title}
+              </h3>
+              <p class="text-[#6B6B6B] text-sm md:text-base">
+                {prop.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>

@@ -1,4 +1,25 @@
 ---
+// Footer.astro - Download, FAQ accordion, and links
+
+const faqs = [
+  {
+    question: 'Will it actually match my style?',
+    answer: 'Yes. Styleum learns from what you wear and what you skip. The more you use it, the better it gets. Most users see noticeably better suggestions within the first week.',
+  },
+  {
+    question: 'What if I only have 20 items?',
+    answer: "That's plenty. Some of the best-dressed people have minimal wardrobes. Styleum works with whatever you have and helps you see new combinations you might have missed.",
+  },
+  {
+    question: 'How long does setup take?',
+    answer: 'About 2 minutes. Take a few photos of your clothes, and you are ready to go. You can add more items anytime.',
+  },
+  {
+    question: 'Can I use it for specific occasions?',
+    answer: 'Absolutely. Pro users can request outfits for specific events—date night, job interview, casual Friday. Styleum factors in the context along with weather and your style.',
+  },
+];
+
 const links = [
   { label: 'Privacy', href: '/privacy' },
   { label: 'Terms', href: '/terms' },
@@ -8,26 +29,130 @@ const links = [
 ];
 ---
 
-<footer class="py-12 bg-[#111111] border-t border-white/10">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="flex flex-col md:flex-row justify-between items-center gap-6">
-      <div class="flex items-center gap-4">
-        <span class="text-white font-display font-bold">Styleum</span>
-        <span class="text-[#9AA3AA] text-sm">&copy; 2026</span>
-      </div>
+<footer id="download" class="bg-[#1A1816]">
 
-      <nav class="flex flex-wrap items-center justify-center gap-6 text-sm text-[#9AA3AA]">
-        {links.map((link) => (
-          <a
-            href={link.href}
-            class="hover:text-white transition"
-            target={link.href.startsWith('http') ? '_blank' : undefined}
-            rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
-          >
-            {link.label}
-          </a>
-        ))}
-      </nav>
+  <!-- Subtle grain texture -->
+  <div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%270 0 400 400%27 xmlns=%27http://www.w3.org/2000/svg%27%3E%3Cfilter id=%27noiseFilter%27%3E%3CfeTurbulence type=%27fractalNoise%27 baseFrequency=%270.9%27 numOctaves=%274%27 stitchTiles=%27stitch%27/%3E%3C/filter%3E%3Crect width=%27100%25%27 height=%27100%25%27 filter=%27url(%23noiseFilter)%27/%3E%3C/svg%3E');"></div>
+
+  <div class="relative max-w-4xl mx-auto px-6 py-20 lg:py-28">
+
+    <!-- Download section -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 mb-20 lg:mb-28">
+      <div>
+        <div class="flex items-center gap-2">
+          <img src="/StyleumLogo1.png" alt="" class="h-4 w-4 invert opacity-40" />
+          <span class="text-[10px] sm:text-xs tracking-[0.4em] uppercase text-white/40 font-medium">
+            Styleum
+          </span>
+        </div>
+        <p class="text-white/70 text-lg sm:text-xl mt-2 max-w-sm">
+          Your morning, handled.
+        </p>
+      </div>
+      <a
+        href="#"
+        class="group inline-flex items-center gap-3 text-white border border-white/20 px-6 py-3 hover:bg-white hover:text-[#1A1816] transition-all"
+      >
+        <span class="text-sm tracking-wide">Download Styleum</span>
+        <span class="text-xs transform group-hover:translate-x-1 transition-transform">→</span>
+      </a>
     </div>
+
+    <!-- FAQ accordion -->
+    <div class="border-t border-white/10 pt-16 lg:pt-20">
+      <p class="text-[10px] sm:text-xs tracking-[0.3em] uppercase text-white/40 font-medium mb-8">
+        Questions
+      </p>
+
+      <div class="space-y-0">
+        {faqs.map((faq, i) => (
+          <div class="faq-item border-b border-white/10">
+            <button
+              class="faq-trigger w-full flex items-center justify-between text-left py-5 group"
+              aria-expanded="false"
+            >
+              <span class="text-white/80 text-base sm:text-lg pr-8 group-hover:text-white transition-colors">
+                {faq.question}
+              </span>
+              <span class="faq-icon text-white/40 text-lg flex-shrink-0 transition-transform">
+                +
+              </span>
+            </button>
+            <div class="faq-content">
+              <div>
+                <p class="text-white/50 text-sm sm:text-base pb-5 leading-relaxed max-w-2xl">
+                  {faq.answer}
+                </p>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <!-- Bottom links -->
+    <div class="border-t border-white/10 pt-12 mt-16 lg:mt-20">
+      <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
+        <span class="text-white/30 text-sm">&copy; 2026</span>
+
+        <nav class="flex flex-wrap items-center gap-6 text-sm text-white/40">
+          {links.map((link) => (
+            <a
+              href={link.href}
+              class="hover:text-white/70 transition"
+              target={link.href.startsWith('http') ? '_blank' : undefined}
+              rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+    </div>
+
   </div>
 </footer>
+
+<script>
+  const faqItems = document.querySelectorAll('.faq-item');
+
+  faqItems.forEach((item) => {
+    const trigger = item.querySelector('.faq-trigger');
+
+    trigger?.addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+
+      // Close all other items
+      faqItems.forEach((other) => {
+        if (other !== item) {
+          other.classList.remove('open');
+          other.querySelector('.faq-trigger')?.setAttribute('aria-expanded', 'false');
+        }
+      });
+
+      // Toggle current item
+      item.classList.toggle('open');
+      trigger.setAttribute('aria-expanded', (!isOpen).toString());
+    });
+  });
+</script>
+
+<style>
+  .faq-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  .faq-content > div {
+    overflow: hidden;
+  }
+
+  .faq-item.open .faq-content {
+    grid-template-rows: 1fr;
+  }
+
+  .faq-item.open .faq-icon {
+    transform: rotate(45deg);
+  }
+</style>

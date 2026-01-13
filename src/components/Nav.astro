@@ -10,7 +10,8 @@
     <nav class="flex items-center justify-between h-16 md:h-20">
       <!-- Logo + Tagline -->
       <div class="flex items-center gap-4">
-        <a href="/" class="text-xl font-display font-bold header-text transition-colors">
+        <a href="/" class="flex items-center gap-2 text-xl font-display font-bold header-text transition-colors">
+          <img src="/StyleumLogo1.png" alt="" class="h-6 w-6 header-logo transition-all" />
           Styleum
         </a>
         <span class="hidden sm:block text-[10px] font-semibold tracking-widest uppercase header-tagline transition-colors">
@@ -45,6 +46,10 @@
 
   header[data-scrolled="false"] .header-text {
     color: #FFFFFF;
+  }
+
+  header[data-scrolled="false"] .header-logo {
+    filter: invert(1);
   }
 
   header[data-scrolled="false"] .header-tagline {
@@ -84,6 +89,10 @@
 
   header[data-scrolled="true"] .header-text {
     color: #111111;
+  }
+
+  header[data-scrolled="true"] .header-logo {
+    filter: none;
   }
 
   header[data-scrolled="true"] .header-tagline {

@@ -20,11 +20,11 @@ const faqs = [
 ---
 
 <section id="faq" class="relative z-50 -mt-16">
-  <div class="bg-white rounded-t-[3rem] pt-24 pb-32 shadow-[0_-10px_60px_rgba(0,0,0,0.08)]">
+  <div class="bg-[#FAFAF8] rounded-t-[3rem] pt-24 pb-32 shadow-[0_-10px_60px_rgba(0,0,0,0.08)]">
     <div class="max-w-3xl mx-auto px-6">
       <!-- Section Header -->
       <div class="text-center mb-16">
-        <p class="text-xs uppercase tracking-[0.2em] text-[#6F7C86] font-semibold mb-4">FAQ</p>
+        <p class="text-xs uppercase tracking-[0.2em] text-[#3D3329] font-semibold mb-4">FAQ</p>
         <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-[-0.02em] text-[#111111]">
           You're probably wondering...
         </h2>
@@ -34,7 +34,7 @@ const faqs = [
       <div class="space-y-4">
         {faqs.map((faq, i) => (
           <div
-            class="faq-item reveal border-b border-border pb-4"
+            class="faq-item reveal border-b border-[#E8E4DE] pb-4 hover:bg-[#F5F2EE] transition-colors rounded-lg px-2 -mx-2"
             style={`--delay: ${i * 0.1}s;`}
           >
             <button
@@ -44,7 +44,7 @@ const faqs = [
               <span class="font-display text-xl md:text-2xl font-semibold text-dark pr-8">
                 {faq.question}
               </span>
-              <span class="faq-icon text-2xl text-slate flex-shrink-0">
+              <span class="faq-icon text-2xl text-[#3D3329] flex-shrink-0">
                 +
               </span>
             </button>

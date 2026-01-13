@@ -2,22 +2,36 @@
 
 /* Styleum Design System */
 @theme {
-  /* Brand Colors */
+  /* Warm Backgrounds */
+  --color-bg-dark: #1A1816;        /* Warm near-black (hero, footer, CTA) */
+  --color-bg-light: #FAFAF8;       /* Warm off-white */
+  --color-bg-cream: #F5F2EE;       /* Warm cream (alternating sections) */
+  --color-bg-white: #ffffff;
+
+  /* Text Colors */
+  --color-text-primary: #1A1A1A;   /* Near black */
+  --color-text-secondary: #6B6B6B; /* Gray */
+  --color-text-tertiary: #9A9A9A;  /* Light gray */
+  --color-text-white: #ffffff;     /* White on dark */
+  --color-text-muted: #A8A8A8;     /* Muted on dark */
+
+  /* Brown Accents */
+  --color-brown-primary: #2E241C;  /* Accent, borders */
+  --color-brown-secondary: #3D3329; /* Icons, labels, kickers */
+  --color-brown-light: #8B7355;    /* Subtle highlights, hover */
+
+  /* Borders */
+  --color-border-light: #E8E4DE;   /* Warm gray border */
+  --color-border-dark: #2E2A27;    /* Border on dark sections */
+
+  /* Legacy aliases (for compatibility) */
   --color-slate: #6F7C86;
   --color-slate-dark: #3F474F;
   --color-slate-light: #9AA3AA;
-  --color-dark: #111111;
-  --color-light: #FAFAF9;
-  --color-border: #E5E7EB;
-
-  /* Legacy color aliases */
-  --color-bg-dark: #111111;
-  --color-bg-light: #FAFAF9;
-  --color-bg-white: #ffffff;
-  --color-text-white: #ffffff;
-  --color-text-muted: #9AA3AA;
-  --color-text-primary: #1f2937;
-  --color-accent: #6F7C86;
+  --color-dark: #1A1816;
+  --color-light: #FAFAF8;
+  --color-border: #E8E4DE;
+  --color-accent: #8B7355;
 
   /* Typography */
   --font-display: 'Clash Display', sans-serif;
@@ -48,13 +62,28 @@
   color: var(--color-slate);
 }
 
-/* Noise overlay */
+/* Noise overlay (global, fixed) */
 .noise-overlay {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 9999;
   opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+}
+
+/* Grain overlay (for individual sections) */
+.grain-overlay {
+  position: relative;
+}
+
+.grain-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 

@@ -1,0 +1,354 @@
+---
+// src/pages/terms.astro
+const title = "Terms of Service - Styleum";
+const description = "Terms of Service for Styleum - AI-powered personal styling app";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content={description}>
+    <title>{title}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: #fafafa;
+        }
+        
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 24px 100px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 40px;
+            transition: color 0.2s;
+        }
+        
+        .back-link:hover {
+            color: #1a1a1a;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .last-updated {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 48px;
+        }
+        
+        h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 48px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+        
+        h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 12px;
+            color: #333;
+        }
+        
+        p {
+            margin-bottom: 16px;
+            color: #444;
+        }
+        
+        ul, ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+            color: #444;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        
+        a {
+            color: #1a1a1a;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        
+        a:hover {
+            color: #666;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #e5e5e5;
+            margin: 48px 0;
+        }
+        
+        .contact-box {
+            background: #f5f5f5;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 32px;
+        }
+        
+        .contact-box p {
+            margin-bottom: 8px;
+        }
+        
+        .contact-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .important-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 16px 20px;
+            margin: 24px 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .important-box p {
+            margin-bottom: 0;
+            color: #664d03;
+        }
+        
+        .caps-text {
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 0.5px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 20px 80px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            h2 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">
+            ← Back to Styleum
+        </a>
+        
+        <h1>Terms of Service</h1>
+        <p class="last-updated">Last Updated: January 7, 2025</p>
+        
+        <p>Welcome to Styleum! These Terms of Service ("Terms") govern your use of the Styleum mobile application (the "App") operated by Sameer Studios LLC ("we," "our," or "us").</p>
+        
+        <p>By downloading, installing, or using the App, you agree to be bound by these Terms. If you do not agree to these Terms, do not use the App.</p>
+        
+        <div class="divider"></div>
+        
+        <h2>1. Acceptance of Terms</h2>
+        <p>By accessing or using Styleum, you confirm that:</p>
+        <ul>
+            <li>You are at least 13 years of age</li>
+            <li>You have the legal capacity to enter into these Terms</li>
+            <li>You will comply with these Terms and all applicable laws and regulations</li>
+        </ul>
+        <p>If you are using the App on behalf of an organization, you represent that you have authority to bind that organization to these Terms.</p>
+        
+        <h2>2. Description of Service</h2>
+        <p>Styleum is an AI-powered personal styling application that:</p>
+        <ul>
+            <li>Allows you to upload and organize photos of your clothing items</li>
+            <li>Analyzes your wardrobe using artificial intelligence</li>
+            <li>Generates personalized outfit recommendations based on your wardrobe, style preferences, and local weather</li>
+            <li>Tracks your outfit history and style patterns</li>
+        </ul>
+        <p>The App is designed to help you make better use of your existing wardrobe, not to promote purchasing new items.</p>
+        
+        <h2>3. Account Registration</h2>
+        
+        <h3>3.1 Account Creation</h3>
+        <p>To use certain features of the App, you must create an account. You agree to:</p>
+        <ul>
+            <li>Provide accurate, current, and complete information</li>
+            <li>Maintain and update your information as needed</li>
+            <li>Keep your login credentials secure and confidential</li>
+            <li>Notify us immediately of any unauthorized access to your account</li>
+        </ul>
+        
+        <h3>3.2 Account Responsibility</h3>
+        <p>You are responsible for all activity that occurs under your account. We are not liable for any loss or damage arising from unauthorized use of your account.</p>
+        
+        <h3>3.3 Account Termination</h3>
+        <p>We reserve the right to suspend or terminate your account at any time for violation of these Terms, fraudulent or illegal activity, or any other reason at our sole discretion.</p>
+        <p>You may delete your account at any time through the App settings.</p>
+        
+        <h2>4. Subscription and Payments</h2>
+        
+        <h3>4.1 Free and Paid Features</h3>
+        <p>Styleum offers both free and premium subscription features. Free accounts have limitations on wardrobe size and outfit generations. Premium subscriptions ("Styleum Pro") unlock additional features.</p>
+        
+        <h3>4.2 Subscription Terms</h3>
+        <ul>
+            <li><strong>Billing:</strong> Subscriptions are billed monthly at $9.99 USD (or equivalent in your local currency) through Apple's App Store</li>
+            <li><strong>Auto-Renewal:</strong> Subscriptions automatically renew unless canceled at least 24 hours before the end of the current period</li>
+            <li><strong>Price Changes:</strong> We may change subscription prices with notice; changes apply to the next billing cycle</li>
+        </ul>
+        
+        <div class="important-box">
+            <p><strong>Important:</strong> Payment will be charged to your Apple ID account at confirmation of purchase. Subscription automatically renews unless it is canceled at least 24 hours before the end of the current period. Your account will be charged for renewal within 24 hours prior to the end of the current period. You can manage and cancel your subscriptions by going to your App Store account settings after purchase.</p>
+        </div>
+        
+        <h3>4.3 Cancellation and Refunds</h3>
+        <ul>
+            <li>You may cancel your subscription at any time through your Apple App Store account settings</li>
+            <li>Cancellation takes effect at the end of the current billing period</li>
+            <li>No refunds are provided for partial subscription periods</li>
+            <li>Refund requests for exceptional circumstances should be directed to Apple</li>
+        </ul>
+        
+        <h3>4.4 Free Trials</h3>
+        <p>If offered, free trials automatically convert to paid subscriptions unless canceled before the trial ends. You will not be charged during the trial period.</p>
+        
+        <h2>5. User Content</h2>
+        
+        <h3>5.1 Your Content</h3>
+        <p>"User Content" refers to any images, text, or other materials you upload to the App, including wardrobe photos and style preferences.</p>
+        <p>You retain ownership of your User Content. By uploading User Content, you grant us a non-exclusive, worldwide, royalty-free license to use, process, store, and display your User Content solely for the purpose of providing the App's services to you.</p>
+        
+        <h3>5.2 Content Guidelines</h3>
+        <p>You agree not to upload or transmit any content that:</p>
+        <ul>
+            <li>Infringes on intellectual property rights of others</li>
+            <li>Contains illegal, harmful, or offensive material</li>
+            <li>Contains malware, viruses, or malicious code</li>
+            <li>Violates any applicable laws or regulations</li>
+            <li>Impersonates another person or entity</li>
+        </ul>
+        
+        <h3>5.3 Content Removal</h3>
+        <p>We reserve the right to remove any User Content that violates these Terms or that we find objectionable, without prior notice.</p>
+        
+        <h2>6. Artificial Intelligence and Outfit Recommendations</h2>
+        
+        <h3>6.1 AI-Generated Content</h3>
+        <p>Styleum uses artificial intelligence to analyze your wardrobe and generate outfit recommendations. You acknowledge that:</p>
+        <ul>
+            <li>AI recommendations are suggestions only and may not always be suitable for every occasion</li>
+            <li>Results depend on the quality and variety of wardrobe items you upload</li>
+            <li>AI technology has limitations and may occasionally produce unexpected results</li>
+        </ul>
+        
+        <h3>6.2 No Fashion Guarantee</h3>
+        <p>We do not guarantee that outfit recommendations will be appropriate for all occasions, match current fashion trends, or suit your personal style preferences in all cases. You are solely responsible for your clothing choices.</p>
+        
+        <h2>7. Intellectual Property</h2>
+        
+        <h3>7.1 Our Property</h3>
+        <p>The App, including its design, features, functionality, code, graphics, logos, and trademarks, is owned by Sameer Studios LLC and protected by intellectual property laws. You may not:</p>
+        <ul>
+            <li>Copy, modify, or distribute the App or its content</li>
+            <li>Reverse engineer, decompile, or disassemble the App</li>
+            <li>Remove any copyright or proprietary notices</li>
+            <li>Use our trademarks without written permission</li>
+        </ul>
+        
+        <h3>7.2 Feedback</h3>
+        <p>If you provide feedback, suggestions, or ideas about the App, you grant us the right to use such feedback without restriction or compensation to you.</p>
+        
+        <h2>8. Privacy</h2>
+        <p>Your use of the App is also governed by our <a href="/privacy">Privacy Policy</a>. By using the App, you consent to the collection and use of your information as described in the Privacy Policy.</p>
+        
+        <h2>9. Prohibited Conduct</h2>
+        <p>You agree not to:</p>
+        <ul>
+            <li>Use the App for any unlawful purpose</li>
+            <li>Attempt to gain unauthorized access to the App or its systems</li>
+            <li>Interfere with or disrupt the App's functionality</li>
+            <li>Use automated scripts, bots, or scrapers</li>
+            <li>Harass, abuse, or harm other users</li>
+            <li>Upload content that violates intellectual property rights</li>
+            <li>Circumvent any security measures</li>
+            <li>Use the App to compete with us or for commercial purposes without permission</li>
+        </ul>
+        
+        <h2>10. Third-Party Services</h2>
+        <p>The App integrates with third-party services including Apple (authentication and payments), cloud service providers (data storage and processing), and AI service providers (image analysis and recommendations). Your use of these services is subject to their respective terms and privacy policies.</p>
+        
+        <h2>11. Disclaimers</h2>
+        
+        <h3>11.1 "As Is" Basis</h3>
+        <p class="caps-text">THE APP IS PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.</p>
+        
+        <h3>11.2 No Guarantee of Availability</h3>
+        <p>We do not guarantee that the App will be available at all times without interruption, free from errors or security vulnerabilities, or compatible with all devices or operating systems.</p>
+        
+        <h2>12. Limitation of Liability</h2>
+        <p class="caps-text">TO THE MAXIMUM EXTENT PERMITTED BY LAW, SAMEER STUDIOS LLC SHALL NOT BE LIABLE FOR INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES, OR LOSS OF PROFITS, DATA, USE, OR GOODWILL.</p>
+        <p class="caps-text">OUR TOTAL LIABILITY FOR ALL CLAIMS ARISING FROM OR RELATED TO THESE TERMS OR THE APP SHALL NOT EXCEED THE GREATER OF THE AMOUNT YOU PAID US IN THE TWELVE (12) MONTHS PRECEDING THE CLAIM, OR ONE HUNDRED U.S. DOLLARS ($100).</p>
+        
+        <h2>13. Indemnification</h2>
+        <p>You agree to indemnify, defend, and hold harmless Sameer Studios LLC from any claims, damages, losses, liabilities, costs, and expenses arising from your use of the App, your User Content, or your violation of these Terms.</p>
+        
+        <h2>14. Dispute Resolution</h2>
+        
+        <h3>14.1 Informal Resolution</h3>
+        <p>Before filing any legal claim, you agree to first contact us at <a href="mailto:legal@sameerstudios.co">legal@sameerstudios.co</a> to attempt to resolve the dispute informally.</p>
+        
+        <h3>14.2 Governing Law</h3>
+        <p>These Terms shall be governed by the laws of the State of Delaware, United States, without regard to its conflict of law provisions.</p>
+        
+        <h3>14.3 Class Action Waiver</h3>
+        <p class="caps-text">YOU AGREE THAT ANY DISPUTE RESOLUTION PROCEEDINGS WILL BE CONDUCTED ONLY ON AN INDIVIDUAL BASIS AND NOT IN A CLASS, CONSOLIDATED, OR REPRESENTATIVE ACTION.</p>
+        
+        <h2>15. Changes to Terms</h2>
+        <p>We may modify these Terms at any time. We will notify you of material changes by posting the updated Terms in the App and updating the "Last Updated" date. Your continued use of the App after changes become effective constitutes acceptance of the modified Terms.</p>
+        
+        <h2>16. General Provisions</h2>
+        <ul>
+            <li><strong>Entire Agreement:</strong> These Terms, together with the Privacy Policy, constitute the entire agreement between you and Sameer Studios LLC regarding the App.</li>
+            <li><strong>Severability:</strong> If any provision of these Terms is found to be unenforceable, the remaining provisions will continue in full force and effect.</li>
+            <li><strong>Waiver:</strong> Our failure to enforce any right or provision shall not be deemed a waiver of such right or provision.</li>
+            <li><strong>Assignment:</strong> You may not assign these Terms without our prior written consent.</li>
+        </ul>
+        
+        <h2>17. Contact Information</h2>
+        <p>If you have any questions about these Terms of Service, please contact us:</p>
+        
+        <div class="contact-box">
+            <p><strong>Sameer Studios LLC</strong></p>
+            <p>Email: <a href="mailto:legal@sameerstudios.co">legal@sameerstudios.co</a></p>
+            <p>Website: <a href="https://styleum.xyz">https://styleum.xyz</a></p>
+        </div>
+    </div>
+</body>
+</html>

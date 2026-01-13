@@ -1,0 +1,73 @@
+---
+// OutfitShowcase.astro - Editorial lookbook with varied widths and phone overlay
+---
+
+<section id="lookbook" class="relative z-20 bg-[#FAFAF8]">
+
+  <!-- Look 01 - Full bleed -->
+  <div class="relative w-full">
+    <div class="aspect-[4/5] sm:aspect-[3/4] lg:aspect-[16/10] bg-[#E8E4DE] overflow-hidden">
+      <!-- Placeholder for editorial image -->
+      <div class="w-full h-full flex items-center justify-center">
+        <span class="text-[#B5B0A8] text-sm">Editorial image 01</span>
+      </div>
+      <!-- When real image is added:
+      <img src="/images/look-01.jpg" alt="" class="w-full h-full object-cover" />
+      -->
+    </div>
+    <!-- Look number -->
+    <span class="absolute bottom-6 right-6 lg:bottom-10 lg:right-10 text-[#1A1816]/10 text-[120px] sm:text-[180px] lg:text-[240px] font-display font-bold leading-none pointer-events-none select-none">
+      01
+    </span>
+  </div>
+
+  <!-- Look 02 - Centered narrower with phone overlay -->
+  <div class="relative py-16 lg:py-24">
+    <div class="w-4/5 sm:w-3/5 lg:w-1/2 mx-auto relative">
+      <div class="aspect-[3/4] bg-[#D8D4CD] overflow-hidden">
+        <!-- Placeholder for editorial image -->
+        <div class="w-full h-full flex items-center justify-center">
+          <span class="text-[#A5A19A] text-sm">Editorial image 02</span>
+        </div>
+        <!-- When real image is added:
+        <img src="/images/look-02.jpg" alt="" class="w-full h-full object-cover" />
+        -->
+      </div>
+
+      <!-- Phone overlay - the app as part of the editorial -->
+      <div class="absolute -bottom-8 -right-4 sm:-right-12 lg:-right-16 transform rotate-[-3deg]">
+        <div class="bg-[#1A1816] rounded-[1.5rem] sm:rounded-[2rem] p-1.5 sm:p-2 shadow-2xl">
+          <div class="aspect-[9/19.5] w-[100px] sm:w-[140px] lg:w-[160px] bg-[#0a0a0a] rounded-[1.2rem] sm:rounded-[1.5rem] overflow-hidden relative">
+            <!-- Placeholder for app screenshot -->
+            <div class="absolute inset-0 flex items-center justify-center">
+              <span class="text-white/20 text-[10px] sm:text-xs">App</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Look number -->
+      <span class="absolute -top-8 -left-4 lg:-left-8 text-[#1A1816]/10 text-[100px] sm:text-[140px] lg:text-[180px] font-display font-bold leading-none pointer-events-none select-none">
+        02
+      </span>
+    </div>
+  </div>
+
+  <!-- Look 03 - Full bleed -->
+  <div class="relative w-full">
+    <div class="aspect-[4/5] sm:aspect-[3/4] lg:aspect-[16/10] bg-[#CCC8C1] overflow-hidden">
+      <!-- Placeholder for editorial image -->
+      <div class="w-full h-full flex items-center justify-center">
+        <span class="text-[#9A9690] text-sm">Editorial image 03</span>
+      </div>
+      <!-- When real image is added:
+      <img src="/images/look-03.jpg" alt="" class="w-full h-full object-cover" />
+      -->
+    </div>
+    <!-- Look number -->
+    <span class="absolute top-6 left-6 lg:top-10 lg:left-10 text-[#1A1816]/10 text-[120px] sm:text-[180px] lg:text-[240px] font-display font-bold leading-none pointer-events-none select-none">
+      03
+    </span>
+  </div>
+
+</section>
