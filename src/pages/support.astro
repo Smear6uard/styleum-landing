@@ -1,0 +1,406 @@
+---
+// src/pages/support.astro
+const title = "Support - Styleum";
+const description = "Get help with Styleum - FAQ, contact information, and support resources";
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content={description}>
+    <title>{title}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.7;
+            color: #1a1a1a;
+            background: #fafafa;
+        }
+        
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 60px 24px 100px;
+        }
+        
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+            margin-bottom: 40px;
+            transition: color 0.2s;
+        }
+        
+        .back-link:hover {
+            color: #1a1a1a;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+        
+        .intro {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 48px;
+        }
+        
+        h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-top: 48px;
+            margin-bottom: 24px;
+            color: #1a1a1a;
+        }
+        
+        h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            color: #1a1a1a;
+        }
+        
+        p {
+            margin-bottom: 16px;
+            color: #444;
+        }
+        
+        ul, ol {
+            margin-bottom: 16px;
+            padding-left: 24px;
+            color: #444;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        strong {
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+        
+        a {
+            color: #1a1a1a;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+        
+        a:hover {
+            color: #666;
+        }
+        
+        .divider {
+            height: 1px;
+            background: #e5e5e5;
+            margin: 48px 0;
+        }
+        
+        .contact-box {
+            background: #f5f5f5;
+            padding: 24px;
+            border-radius: 12px;
+            margin-top: 24px;
+        }
+        
+        .contact-box p {
+            margin-bottom: 8px;
+        }
+        
+        .contact-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .contact-email {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 8px;
+        }
+        
+        .response-time {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        /* FAQ Styles */
+        .faq-item {
+            border-bottom: 1px solid #e5e5e5;
+            padding: 20px 0;
+        }
+        
+        .faq-item:first-child {
+            border-top: 1px solid #e5e5e5;
+        }
+        
+        .faq-question {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+        }
+        
+        .faq-question:hover {
+            color: #333;
+        }
+        
+        .faq-icon {
+            font-size: 24px;
+            color: #666;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            color: #444;
+            line-height: 1.7;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, margin-top 0.3s ease;
+        }
+        
+        .faq-item.open .faq-answer {
+            max-height: 1000px;
+            margin-top: 12px;
+        }
+        
+        .faq-answer p {
+            margin-bottom: 12px;
+        }
+        
+        .faq-answer p:last-child {
+            margin-bottom: 0;
+        }
+        
+        .faq-answer ul, .faq-answer ol {
+            margin-top: 8px;
+            margin-bottom: 12px;
+        }
+        
+        /* Footer */
+        .footer {
+            margin-top: 64px;
+            padding-top: 32px;
+            border-top: 1px solid #e5e5e5;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-bottom: 16px;
+        }
+        
+        .footer-links a {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .footer-links a:hover {
+            color: #1a1a1a;
+        }
+        
+        .footer-copyright {
+            font-size: 14px;
+            color: #999;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 40px 20px 80px;
+            }
+            
+            h1 {
+                font-size: 28px;
+            }
+            
+            h2 {
+                font-size: 20px;
+            }
+            
+            .faq-question {
+                font-size: 16px;
+            }
+            
+            .contact-email {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">
+            ← Back to Styleum
+        </a>
+        
+        <h1>Support</h1>
+        <p class="intro">We're here to help! Find answers to common questions or reach out to our support team.</p>
+        
+        <div class="divider"></div>
+        
+        <h2>Contact Us</h2>
+        <div class="contact-box">
+            <p class="contact-email">
+                <a href="mailto:support.styleum@sameerstudios.com">support.styleum@sameerstudios.com</a>
+            </p>
+            <p class="response-time">Expected response time: within 24-48 hours</p>
+        </div>
+        
+        <div class="divider"></div>
+        
+        <h2>Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How do I add clothes to my wardrobe?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>To add clothes to your wardrobe, tap the "+" button in the app and select "Add Item" or "Take Photo". You can either take a new photo of your clothing item or select an existing photo from your camera roll. Make sure the item is well-lit and clearly visible for best results.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How do daily outfit recommendations work?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Styleum uses AI to analyze your wardrobe and generate personalized outfit recommendations every morning. The app considers your style preferences, the weather in your location, and the items in your wardrobe to create 4 curated looks for you to choose from. Simply open the app each morning to see your new recommendations.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How do I use Style Me?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Style Me is a feature that helps you create outfits on demand. Tap the "Style Me" button, and the app will generate outfit recommendations based on your current wardrobe. You can specify preferences like occasion, weather, or style, and Styleum will create personalized combinations from your existing clothes.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What's the difference between free and Pro?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>The free version of Styleum includes basic features with limitations on wardrobe size and outfit generations. Styleum Pro unlocks unlimited wardrobe items, unlimited outfit generations, advanced styling features, and priority support. Pro subscriptions are $9.99/month and can be managed through your Apple account.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How do I manage or cancel my subscription?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>To manage or cancel your subscription, you have two options:</p>
+                <ol>
+                    <li>Open Styleum → Settings → Manage Subscription</li>
+                    <li>Go to iOS Settings → Apple ID → Subscriptions → Styleum</li>
+                </ol>
+                <p>Cancellation takes effect at the end of your current billing period. You'll continue to have access to Pro features until then.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How do I restore my purchases on a new device?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>To restore your purchases on a new device, make sure you're signed in with the same Apple ID you used for your original purchase. Open Styleum and go to Settings → Restore Purchases. The app will verify your subscription status and restore your Pro access automatically.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How do I delete my account?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>To delete your account, open Styleum and go to Profile → Settings → Delete Account. Confirm the deletion when prompted. <strong>Warning:</strong> This action is permanent and cannot be undone. All your data, including wardrobe items, outfit history, and preferences, will be permanently removed within 30 days.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>Why does the app need camera/photo access?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>Styleum needs camera and photo access to allow you to add clothing items to your wardrobe. You can take photos directly in the app or select existing photos from your library. The app only accesses photos you explicitly choose to upload. We never access your entire photo library without your permission.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>My outfits aren't loading - what do I do?</span>
+                <span class="faq-icon">+</span>
+            </div>
+            <div class="faq-answer">
+                <p>If your outfits aren't loading, try these troubleshooting steps:</p>
+                <ol>
+                    <li>Check your internet connection - Styleum needs an active connection to generate outfits</li>
+                    <li>Close and restart the app</li>
+                    <li>Make sure you have items in your wardrobe - you need at least a few clothing items for outfit generation</li>
+                    <li>Check if you've reached your daily limit (free accounts have limits on outfit generations)</li>
+                    <li>If the problem persists, contact support at <a href="mailto:support.styleum@sameerstudios.com">support.styleum@sameerstudios.com</a></li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <div class="footer-links">
+                <a href="/privacy">Privacy Policy</a>
+                <a href="/terms">Terms of Service</a>
+            </div>
+            <p class="footer-copyright">© 2025 Sameer Studios LLC</p>
+        </div>
+    </div>
+    
+    <script>
+        function toggleFaq(element) {
+            const faqItem = element.closest('.faq-item');
+            const isOpen = faqItem.classList.contains('open');
+            
+            // Close all FAQ items
+            document.querySelectorAll('.faq-item').forEach(item => {
+                item.classList.remove('open');
+            });
+            
+            // Open clicked item if it wasn't already open
+            if (!isOpen) {
+                faqItem.classList.add('open');
+            }
+        }
+    </script>
+</body>
+</html>
