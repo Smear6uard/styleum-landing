@@ -206,15 +206,21 @@ const wardrobe = items.slice(0, 12);
     position: relative;
     width: 100%;
     container-type: inline-size;
-    transform-style: preserve-3d;
   }
 
+  /* A soft gradient instead of a blur filter: the same glow, no per-frame filter cost on phones */
   .phone__glow {
     position: absolute;
-    inset: -14% -26%;
+    inset: -18% -30%;
     pointer-events: none;
-    background: radial-gradient(55% 50% at 50% 46%, rgba(233, 180, 142, 0.34), rgba(91, 108, 158, 0.22) 42%, transparent 72%);
-    filter: blur(28px);
+    background: radial-gradient(
+      50% 46% at 50% 46%,
+      rgba(233, 180, 142, 0.32) 0%,
+      rgba(200, 150, 140, 0.22) 24%,
+      rgba(91, 108, 158, 0.16) 46%,
+      rgba(91, 108, 158, 0.05) 64%,
+      transparent 78%
+    );
     transition: opacity 1s var(--ease-ios);
     animation: breathe 7s ease-in-out infinite;
   }
@@ -266,7 +272,8 @@ const wardrobe = items.slice(0, 12);
     border-radius: 12.3cqw;
     overflow: hidden;
     background: #000;
-    -webkit-mask-image: -webkit-radial-gradient(white, black);
+    isolation: isolate;
+    transform: translateZ(0);
   }
   .stack {
     position: absolute;
@@ -402,9 +409,9 @@ const wardrobe = items.slice(0, 12);
     gap: 3cqw;
     padding: 3.2cqw 3.4cqw;
     border-radius: 6.5cqw;
-    background: rgba(255, 255, 255, 0.18);
-    -webkit-backdrop-filter: blur(18px) saturate(1.4);
-    backdrop-filter: blur(18px) saturate(1.4);
+    background: rgba(255, 255, 255, 0.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.4);
+    backdrop-filter: blur(12px) saturate(1.4);
     box-shadow:
       inset 0 0 0 1px rgba(255, 255, 255, 0.16),
       0 10cqw 14cqw -10cqw rgba(0, 0, 0, 0.45);

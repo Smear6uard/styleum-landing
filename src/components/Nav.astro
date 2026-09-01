@@ -59,6 +59,14 @@ const links = [
   .nav.is-scrolled::before {
     opacity: 1;
   }
+  /* Phones: a near-solid bar. Backdrop blur on a fixed element is a scroll-jank source on iOS. */
+  @media (max-width: 899px) {
+    .nav::before {
+      background: color-mix(in srgb, var(--bg) 94%, transparent);
+      -webkit-backdrop-filter: none;
+      backdrop-filter: none;
+    }
+  }
   .nav.is-hidden {
     transform: translateY(-100%);
   }
@@ -135,11 +143,13 @@ const links = [
     let last = window.scrollY;
     let ticking = false;
     const update = () => {
-      const y = window.scrollY;
+      const y = Math.max(0, window.scrollY);
       nav.classList.toggle('is-scrolled', y > 24);
-      const goingDown = y > last && y > 240;
-      nav.classList.toggle('is-hidden', goingDown);
-      last = y;
+      // Ignore tiny deltas (rubber-banding, address-bar settles) so the bar does not flicker.
+      if (Math.abs(y - last) > 8) {
+        nav.classList.toggle('is-hidden', y > last && y > 240);
+        last = y;
+      }
       ticking = false;
     };
     window.addEventListener(

@@ -112,9 +112,6 @@ import { site, cta } from '../site';
     padding-inline: var(--gutter);
     background: var(--color-ink);
     color: var(--color-chalk);
-    transition:
-      background-color 0.9s var(--ease-ios),
-      color 0.9s var(--ease-ios);
   }
   .story.is-day {
     background: var(--color-chalk);
@@ -128,7 +125,7 @@ import { site, cta } from '../site';
     position: sticky;
     top: 0;
     height: 100vh;
-    height: 100dvh;
+    height: 100svh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -136,13 +133,13 @@ import { site, cta } from '../site';
   }
   .story__phone :global(.phone) {
     width: min(390px, 40vh, 100%);
-    width: min(390px, 40dvh, 100%);
+    width: min(390px, 40svh, 100%);
   }
 
   .chapter {
     grid-column: 1;
     min-height: 100vh;
-    min-height: 100dvh;
+    min-height: 100svh;
     display: flex;
     align-items: center;
     padding-block: 4rem;
@@ -150,6 +147,7 @@ import { site, cta } from '../site';
   .chapter__body {
     width: 100%;
     max-width: 38rem;
+    will-change: transform, opacity;
   }
   .chapter .h2 {
     margin: 1.25rem 0 1.5rem;
@@ -232,12 +230,16 @@ import { site, cta } from '../site';
 
   @media (max-width: 899px) {
     :root {
-      --phone-zone: 50dvh;
+      --phone-zone: 50svh;
     }
     .story {
       grid-template-columns: 1fr;
       grid-template-rows: auto var(--phone-zone) auto auto auto auto;
       column-gap: 0;
+      /* On phones the sunrise is a class toggle, not a scroll scrub */
+      transition:
+        background-color 0.9s var(--ease-ios),
+        color 0.9s var(--ease-ios);
     }
     .story__phone {
       grid-column: 1;
@@ -247,7 +249,7 @@ import { site, cta } from '../site';
       z-index: 3;
     }
     .story__phone :global(.phone) {
-      width: min(18dvh, 56vw);
+      width: min(18svh, 56vw);
     }
     .chapter--hero {
       grid-row: 1;
@@ -261,10 +263,10 @@ import { site, cta } from '../site';
     .chapter:nth-child(5) { grid-row: 5; }
     .chapter:nth-child(6) { grid-row: 6; }
     .chapter:not(.chapter--hero) {
-      min-height: 100dvh;
+      min-height: 100svh;
       align-items: flex-end;
       padding-top: 0;
-      padding-bottom: 6dvh;
+      padding-bottom: 6svh;
     }
     .chapter__body {
       max-width: none;

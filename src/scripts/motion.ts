@@ -8,9 +8,12 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 gsap.registerPlugin(ScrollTrigger);
+// Mobile browsers fire resize when the address bar collapses; recalculating then causes visible jumps.
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 const html = document.documentElement;
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isPhone = window.matchMedia('(max-width: 899px)').matches;
 const phone = document.getElementById('phone');
 const story = document.getElementById('story');
 const storyPhone = document.getElementById('story-phone');
@@ -78,13 +81,15 @@ if (story && wardrobe) {
   const navFromProgress = (p: number) => {
     html.dataset.nav = p > 0.5 ? 'dark' : 'light';
   };
-  if (reduce) {
+  if (reduce || isPhone) {
+    // A single class toggle (CSS transition on phones, instant under reduced motion): no per-frame repaints.
     ScrollTrigger.create({
       trigger: wardrobe,
-      start: 'top 70%',
+      start: 'top 75%',
       end: 'max',
       toggleClass: { targets: story, className: 'is-day' },
       onToggle: (self) => navFromProgress(self.isActive ? 1 : 0),
+      onRefresh: (self) => navFromProgress(self.isActive ? 1 : 0),
     });
   } else {
     gsap.fromTo(
@@ -137,7 +142,8 @@ mm.add(
           trigger: body,
           start: desktop ? 'top 96%' : 'top 100%',
           end: desktop ? 'bottom 4%' : 'top 46%',
-          scrub: 0.4,
+          // Touch expects 1:1 with the finger; smoothing reads as lag there.
+          scrub: desktop ? 0.4 : true,
         },
       });
       const inEnd = desktop ? 0.16 : 0.2;
