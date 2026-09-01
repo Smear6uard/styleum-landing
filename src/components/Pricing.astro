@@ -1,103 +1,142 @@
 ---
-const freeFeatures = [
-  '4 daily outfits',
-  'Weather-aware',
-  '50 items',
+import { site } from '../site';
+import Cta from './Cta.astro';
+
+const free = [
+  `Four outfits at ${site.ritualTime}, every day`,
+  'Weather-checked where you are',
+  'Up to 50 wardrobe items',
+  'Streaks and outfit history',
 ];
 
-const proFeatures = [
-  'Unlimited outfits',
+const pro = [
+  'Everything in Free',
+  'Unlimited outfits and Style Me',
   'Unlimited wardrobe',
   'Occasion styling',
   'Style analytics',
+  'Priority support',
 ];
 ---
 
-<section id="pricing" class="relative z-50 -mt-16">
-  <div class="bg-light rounded-t-[3rem] pt-24 pb-48">
-    <div class="max-w-5xl mx-auto px-6">
-      <!-- Section Header -->
-      <div class="text-center mb-16">
-        <p class="kicker mb-4">Pricing</p>
-        <h2 class="font-display text-4xl md:text-6xl lg:text-7xl tracking-[-0.03em] text-dark">
-          Start free.
-        </h2>
+<section id="pricing" class="pricing section" data-nav-theme="dark">
+  <div class="wrap">
+    <div class="pricing__head">
+      <p class="eyebrow" data-reveal>Pricing</p>
+      <h2 class="display h2" data-lines>
+        <span class="line"><span class="line__in">Free every morning.</span></span>
+        <span class="line"><span class="line__in"><em>Pro</em> when you want more.</span></span>
+      </h2>
+    </div>
+
+    <div class="plans">
+      <div class="plan" data-reveal>
+        <p class="eyebrow">Free</p>
+        <p class="plan__price display">$0</p>
+        <p class="plan__per mono">Forever</p>
+        <ul class="plan__list">
+          {free.map((f) => <li>{f}</li>)}
+        </ul>
       </div>
 
-      <!-- Pricing Cards -->
-      <div class="grid md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
-        <!-- Free Card -->
-        <div class="reveal bg-white rounded-3xl p-8 md:p-10 border border-border shadow-lg" style="--delay: 0.1s;">
-          <div class="mb-6">
-            <span class="text-sm font-semibold text-slate-light uppercase tracking-wide">Free</span>
-          </div>
-
-          <div class="mb-6">
-            <span class="font-display text-5xl font-bold text-dark">$0</span>
-            <span class="text-slate-light ml-1">/forever</span>
-          </div>
-
-          <ul class="space-y-3 mb-8">
-            {freeFeatures.map((feature) => (
-              <li class="flex items-center gap-3 text-gray-600">
-                <svg class="w-5 h-5 text-slate" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                {feature}
-              </li>
-            ))}
-          </ul>
-
-          <a
-            href="#"
-            class="block w-full py-3.5 text-center font-semibold border-2 border-dark text-dark rounded-full hover:bg-dark hover:text-white transition"
-          >
-            Download
-          </a>
-        </div>
-
-        <!-- Pro Card -->
-        <div class="reveal bg-dark rounded-3xl p-8 md:p-10 relative" style="--delay: 0.2s;">
-          <!-- Popular Badge -->
-          <div class="absolute -top-3 left-1/2 -translate-x-1/2">
-            <span class="bg-slate text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full">
-              Popular
-            </span>
-          </div>
-
-          <div class="mb-6">
-            <span class="text-sm font-semibold text-slate-light uppercase tracking-wide">Pro</span>
-          </div>
-
-          <div class="mb-6">
-            <span class="font-display text-5xl font-bold text-white">$6.99</span>
-            <span class="text-slate-light ml-1">/month</span>
-          </div>
-
-          <ul class="space-y-3 mb-8">
-            {proFeatures.map((feature) => (
-              <li class="flex items-center gap-3 text-white/80">
-                <svg class="w-5 h-5 text-slate" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-                {feature}
-              </li>
-            ))}
-          </ul>
-
-          <a
-            href="#"
-            class="block w-full py-3.5 text-center font-semibold bg-slate text-white rounded-full hover:bg-slate-dark transition"
-          >
-            Start Pro
-          </a>
-        </div>
+      <div class="plan plan--pro" data-reveal style="--d:120ms">
+        <p class="eyebrow">Pro</p>
+        <p class="plan__price display">{site.pro.price}</p>
+        <p class="plan__per mono">Per {site.pro.period} · cancel any time</p>
+        <ul class="plan__list">
+          {pro.map((f) => <li>{f}</li>)}
+        </ul>
       </div>
+    </div>
 
-      <!-- Trust Note -->
-      <p class="text-center text-slate-light text-sm mt-8">
-        Free forever · 2-minute setup · No credit card
-      </p>
+    <div class="pricing__foot" data-reveal style="--d:200ms">
+      <Cta variant="solid" />
+      <p class="mono muted">Billed through the App Store. Manage or cancel in Settings.</p>
     </div>
   </div>
 </section>
+
+<style>
+  .pricing {
+    background: var(--color-paper);
+    color: var(--color-ink);
+  }
+  .pricing__head {
+    max-width: 62rem;
+    margin-bottom: clamp(3rem, 7vw, 5.5rem);
+  }
+  .pricing__head .h2 {
+    margin-top: 1.25rem;
+  }
+
+  .plans {
+    display: grid;
+    grid-template-columns: 1fr;
+    border-top: 1px solid var(--color-line);
+  }
+  .plan {
+    padding: clamp(2rem, 4vw, 3rem) 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+  .plan__price {
+    font-size: clamp(3.5rem, 7vw, 6rem);
+    line-height: 1;
+    margin: 1rem 0 0.5rem;
+    font-variant-numeric: lining-nums;
+  }
+  .plan__per {
+    opacity: 0.55;
+    margin: 0 0 2rem;
+  }
+  .plan__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    max-width: 26rem;
+  }
+  .plan__list li {
+    display: flex;
+    gap: 0.8rem;
+    align-items: baseline;
+    color: var(--color-graphite);
+  }
+  .plan__list li::before {
+    content: '';
+    flex: none;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 50%;
+    background: var(--color-ink);
+    transform: translateY(-0.1rem);
+  }
+  .plan--pro .plan__list li::before {
+    background: linear-gradient(135deg, var(--color-sky), var(--color-dawn));
+  }
+
+  .pricing__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 2rem;
+    padding-top: clamp(2rem, 4vw, 3rem);
+  }
+  .pricing__foot p {
+    margin: 0;
+  }
+
+  @media (min-width: 760px) {
+    .plans {
+      grid-template-columns: 1fr 1fr;
+    }
+    .plan {
+      padding-inline: clamp(2rem, 5vw, 4rem);
+    }
+    .plan:first-child {
+      padding-left: 0;
+      border-right: 1px solid var(--color-line);
+    }
+  }
+</style>

@@ -1,0 +1,294 @@
+---
+/**
+ * Hero + product story. One phone stays put while five chapters scroll past,
+ * in the order the morning actually happens.
+ */
+import Garments from './Garments.astro';
+import Phone from './Phone.astro';
+import Cta from './Cta.astro';
+import { occasions } from '../content/wardrobe';
+import { site, cta } from '../site';
+---
+
+<Garments />
+
+<section id="story" class="story" aria-label="How Styleum works">
+  <div class="story__phone" id="story-phone">
+    <Phone />
+  </div>
+
+  <!-- 9:00 -->
+  <div class="chapter chapter--hero" id="hero" data-chapter="0" data-screen="lock">
+    <div class="chapter__body hero__body">
+      <p class="eyebrow hero__eyebrow" data-intro>{site.ritualTime} AM · Every morning</p>
+      <h1 class="display h1 hero__title" id="hero-title" data-lines>
+        <span class="line"><span class="line__in">Wake up</span></span>
+        <span class="line"><span class="line__in"><em>styled.</em></span></span>
+      </h1>
+      <p class="lede hero__lede" data-intro>
+        Four outfits, built from the clothes you already own, waiting on your lock screen at {site.ritualTime}. No shopping. No staring into the closet.
+      </p>
+      <div class="hero__cta" data-intro>
+        <Cta variant="chalk" />
+        <a class="btn btn--ghost" href="#wardrobe">See the morning</a>
+      </div>
+      <p class="mono hero__note" data-intro>{cta.note}</p>
+    </div>
+  </div>
+
+  <!-- Wardrobe -->
+  <div class="chapter" id="wardrobe" data-chapter="1" data-screen="wardrobe">
+    <div class="chapter__body">
+      <p class="eyebrow">Once · Two minutes</p>
+      <h2 class="display h2">Photograph what you own.</h2>
+      <p class="lede muted">
+        One photo per piece. Styleum cuts the background, names the item, and reads its colour, fabric and cut. Twenty items is plenty. Two hundred is fine.
+      </p>
+      <ul class="facts mono">
+        <li>Background removed automatically</li>
+        <li>Colour, material and category tagged</li>
+        <li>Only the photos you choose, never your library</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Today's four -->
+  <div class="chapter" id="today" data-chapter="2" data-screen="today">
+    <div class="chapter__body">
+      <p class="eyebrow">{site.ritualTime} AM · Every day</p>
+      <h2 class="display h2">Four looks, ready before coffee.</h2>
+      <p class="lede muted">
+        Each morning Styleum builds four outfits from your wardrobe, checks them against the forecast where you are, and ranks them by how you actually dress.
+      </p>
+      <ul class="facts mono">
+        <li>68° and clear → no coat</li>
+        <li>Worn Monday → rested Tuesday</li>
+        <li>Ranked by your own history, not a trend</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Wear it -->
+  <div class="chapter" id="wear" data-chapter="3" data-screen="wear">
+    <div class="chapter__body">
+      <p class="eyebrow">9:01 AM · One tap</p>
+      <h2 class="display h2">Tap what you’ll wear.</h2>
+      <p class="lede muted">
+        One tap marks it worn. Every pick and every skip teaches Styleum your taste. The loafers you never choose stop showing up. The overshirt you love shows up more.
+      </p>
+      <ul class="facts mono">
+        <li>Streaks and outfit history</li>
+        <li>Learns from skips as much as picks</li>
+        <li>Nothing new to buy</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Style Me -->
+  <div class="chapter" id="styleme" data-chapter="4" data-screen="styleme">
+    <div class="chapter__body">
+      <p class="eyebrow">Pro · Style Me</p>
+      <h2 class="display h2">Something specific?</h2>
+      <p class="lede muted">
+        Name the occasion and get a look built for it, from your own closet. Try one, the phone updates.
+      </p>
+      <div class="occ-chips" role="group" aria-label="Choose an occasion">
+        {occasions.map((o, i) => (
+          <button class="occ-chip" type="button" data-occ={o.id} aria-pressed={i === 0 ? 'true' : 'false'}>
+            {o.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .story {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    column-gap: clamp(2rem, 6vw, 7rem);
+    padding-inline: var(--gutter);
+    background: var(--color-ink);
+    color: var(--color-chalk);
+    transition:
+      background-color 0.9s var(--ease-ios),
+      color 0.9s var(--ease-ios);
+  }
+  .story.is-day {
+    background: var(--color-chalk);
+    color: var(--color-ink);
+  }
+
+  .story__phone {
+    grid-column: 2;
+    grid-row: 1 / span 5;
+    align-self: start;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+  .story__phone :global(.phone) {
+    width: min(390px, 40vh, 100%);
+    width: min(390px, 40dvh, 100%);
+  }
+
+  .chapter {
+    grid-column: 1;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    padding-block: 4rem;
+  }
+  .chapter__body {
+    width: 100%;
+    max-width: 38rem;
+  }
+  .chapter .h2 {
+    margin: 1.25rem 0 1.5rem;
+  }
+
+  .chapter--hero {
+    align-items: flex-end;
+    padding-top: calc(var(--nav-h) + 3rem);
+    padding-bottom: clamp(3rem, 9vh, 6rem);
+  }
+  .hero__eyebrow {
+    margin-bottom: 1.5rem;
+  }
+  .hero__title {
+    margin-bottom: 1.75rem;
+  }
+  .hero__lede {
+    margin-bottom: 2.25rem;
+  }
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+  .hero__note {
+    opacity: 0.55;
+  }
+  :global(html.js) [data-intro] {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  .facts {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    opacity: 0.68;
+  }
+  .facts li {
+    display: flex;
+    gap: 0.8rem;
+    align-items: baseline;
+  }
+  .facts li::before {
+    content: '—';
+    opacity: 0.5;
+  }
+
+  .occ-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 2rem;
+  }
+  .occ-chip {
+    padding: 0.75rem 1.15rem;
+    border-radius: 999px;
+    border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition:
+      background-color 0.35s,
+      color 0.35s,
+      border-color 0.35s,
+      transform 0.6s var(--ease-out-expo);
+  }
+  .occ-chip:hover {
+    border-color: currentColor;
+    transform: translateY(-2px);
+  }
+  .occ-chip[aria-pressed='true'] {
+    background: var(--color-ink);
+    color: var(--color-chalk);
+    border-color: var(--color-ink);
+  }
+
+  @media (max-width: 899px) {
+    :root {
+      --phone-zone: 50dvh;
+    }
+    .story {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto var(--phone-zone) auto auto auto auto;
+      column-gap: 0;
+    }
+    .story__phone {
+      grid-column: 1;
+      grid-row: 2 / span 5;
+      top: var(--nav-h);
+      height: calc(var(--phone-zone) - var(--nav-h));
+      z-index: 3;
+    }
+    .story__phone :global(.phone) {
+      width: min(18dvh, 56vw);
+    }
+    .chapter--hero {
+      grid-row: 1;
+      min-height: 0;
+      align-items: flex-start;
+      padding-top: calc(var(--nav-h) + 3.5rem);
+      padding-bottom: 2.5rem;
+    }
+    .chapter:nth-child(3) { grid-row: 3; }
+    .chapter:nth-child(4) { grid-row: 4; }
+    .chapter:nth-child(5) { grid-row: 5; }
+    .chapter:nth-child(6) { grid-row: 6; }
+    .chapter:not(.chapter--hero) {
+      min-height: 100dvh;
+      align-items: flex-end;
+      padding-top: 0;
+      padding-bottom: 6dvh;
+    }
+    .chapter__body {
+      max-width: none;
+    }
+    .chapter .h2 {
+      font-size: clamp(2rem, 9.5vw, 2.5rem);
+      margin: 0.75rem 0 0.9rem;
+    }
+    .chapter .lede {
+      font-size: 1rem;
+      line-height: 1.45;
+    }
+    .facts {
+      margin-top: 1.1rem;
+      gap: 0.35rem;
+      font-size: 0.78rem;
+    }
+    .occ-chips {
+      margin-top: 1.1rem;
+      gap: 0.45rem;
+    }
+    .occ-chip {
+      padding: 0.6rem 0.95rem;
+      font-size: 0.85rem;
+    }
+  }
+</style>

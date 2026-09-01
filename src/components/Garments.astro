@@ -1,0 +1,80 @@
+---
+/**
+ * Vector garment library. Rendered once per page; every garment on the
+ * page is a <use> of one of these symbols, coloured with currentColor.
+ * Shading uses black at low opacity so the same symbol works for ecru and navy.
+ */
+---
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="g-tee" viewBox="0 0 100 100">
+      <path d="M34 20 Q50 30 66 20 L86 29 L80 47 L70 43 V84 Q50 87 30 84 V43 L20 47 L14 29 Z" fill="currentColor" stroke-linejoin="round" />
+      <path d="M38 20 Q50 29 62 20" fill="none" stroke="#000" stroke-opacity=".28" stroke-width="2.2" stroke-linecap="round" />
+      <path d="M70 43 L80 47 M30 43 L20 47" stroke="#000" stroke-opacity=".12" stroke-width="1.6" />
+    </symbol>
+
+    <symbol id="g-shirt" viewBox="0 0 100 100">
+      <path d="M36 16 L45 13 L50 21 L55 13 L64 16 L86 26 L82 62 L70 59 V88 Q50 91 30 88 V59 L18 62 L14 26 Z" fill="currentColor" stroke-linejoin="round" />
+      <path d="M45 13 L50 27 L55 13" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="2" stroke-linejoin="round" />
+      <path d="M50 27 V88" stroke="#000" stroke-opacity=".18" stroke-width="1.6" />
+      <circle cx="50" cy="40" r="1.6" fill="#000" fill-opacity=".35" />
+      <circle cx="50" cy="52" r="1.6" fill="#000" fill-opacity=".35" />
+      <circle cx="50" cy="64" r="1.6" fill="#000" fill-opacity=".35" />
+      <circle cx="50" cy="76" r="1.6" fill="#000" fill-opacity=".35" />
+      <path d="M70 59 L82 62 M30 59 L18 62" stroke="#000" stroke-opacity=".12" stroke-width="1.6" />
+    </symbol>
+
+    <symbol id="g-knit" viewBox="0 0 100 100">
+      <path d="M35 18 Q50 27 65 18 L84 26 L90 66 L74 68 L72 86 Q50 89 28 86 L26 68 L10 66 L16 26 Z" fill="currentColor" stroke-linejoin="round" />
+      <path d="M39 18 Q50 26 61 18" fill="none" stroke="#000" stroke-opacity=".28" stroke-width="2.4" stroke-linecap="round" />
+      <path d="M29 80 H71" stroke="#000" stroke-opacity=".18" stroke-width="2" stroke-dasharray="1.5 2.2" />
+      <path d="M26 68 L74 68" stroke="#000" stroke-opacity=".08" stroke-width="1.4" />
+    </symbol>
+
+    <symbol id="g-blazer" viewBox="0 0 100 100">
+      <path d="M34 16 L48 12 L52 12 L66 16 L86 28 L82 66 L70 64 V88 H30 V64 L18 66 L14 28 Z" fill="currentColor" stroke-linejoin="round" />
+      <path d="M48 12 L38 44 L50 56 L62 44 L52 12 Z" fill="#000" fill-opacity=".22" />
+      <path d="M50 56 V88" stroke="#000" stroke-opacity=".18" stroke-width="1.6" />
+      <circle cx="47" cy="66" r="1.6" fill="#000" fill-opacity=".35" />
+      <path d="M34 70 h8 M58 70 h8" stroke="#000" stroke-opacity=".14" stroke-width="1.6" />
+    </symbol>
+
+    <symbol id="g-coat" viewBox="0 0 100 100">
+      <path d="M34 12 L48 8 L52 8 L66 12 L88 22 L84 70 L72 68 V94 H28 V68 L16 70 L12 22 Z" fill="currentColor" stroke-linejoin="round" />
+      <path d="M48 8 L40 40 L50 50 L60 40 L52 8 Z" fill="#000" fill-opacity=".2" />
+      <path d="M50 50 V94" stroke="#000" stroke-opacity=".18" stroke-width="1.6" />
+      <path d="M30 60 h8 M62 60 h8" stroke="#000" stroke-opacity=".18" stroke-width="1.6" />
+      <circle cx="45" cy="60" r="1.6" fill="#000" fill-opacity=".35" />
+      <circle cx="45" cy="72" r="1.6" fill="#000" fill-opacity=".35" />
+    </symbol>
+
+    <symbol id="g-trousers" viewBox="0 0 100 100">
+      <path d="M30 10 H70 L73 92 H56 L50 44 L44 92 H27 Z" fill="currentColor" stroke-linejoin="round" />
+      <path d="M30 10 H70 V17 H30 Z" fill="#000" fill-opacity=".2" />
+      <path d="M38 17 V92 M62 17 V92" stroke="#000" stroke-opacity=".12" stroke-width="1.4" />
+    </symbol>
+
+    <symbol id="g-jeans" viewBox="0 0 100 100">
+      <path d="M30 10 H70 L73 92 H56 L50 44 L44 92 H27 Z" fill="currentColor" stroke-linejoin="round" />
+      <path d="M30 10 H70 V17 H30 Z" fill="#000" fill-opacity=".22" />
+      <path d="M30 20 L40 20 L38 30 M70 20 L60 20 L62 30" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="1.4" stroke-linecap="round" />
+      <path d="M46 17 V44 M54 17 V44" stroke="#fff" stroke-opacity=".18" stroke-width="1.2" />
+      <path d="M29.5 24 L28 88 M70.5 24 L72 88" stroke="#fff" stroke-opacity=".18" stroke-width="1.2" />
+    </symbol>
+
+    <symbol id="g-sneaker" viewBox="0 0 100 100">
+      <path d="M10 64 C10 54 26 54 38 46 C48 40 54 30 68 34 L88 44 C94 47 94 60 88 62 L16 66 C12 66 10 66 10 64 Z" fill="currentColor" stroke-linejoin="round" />
+      <path d="M10 64 L88 62 C94 62 94 72 86 72 H16 C10 72 8 68 10 64 Z" fill="#000" fill-opacity=".16" />
+      <path d="M44 48 l6 -3 M48 54 l7 -3 M52 60 l8 -3" stroke="#000" stroke-opacity=".3" stroke-width="1.6" stroke-linecap="round" />
+      <path d="M62 36 C60 46 66 56 78 60" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="1.6" />
+    </symbol>
+
+    <symbol id="g-loafer" viewBox="0 0 100 100">
+      <path d="M8 62 C10 52 30 52 42 46 C50 42 58 36 72 40 L90 50 C94 53 94 62 88 64 L16 66 C10 66 8 66 8 62 Z" fill="currentColor" stroke-linejoin="round" />
+      <path d="M8 62 L88 64 C92 64 92 70 86 70 H14 C8 70 6 66 8 62 Z" fill="#000" fill-opacity=".3" />
+      <path d="M46 46 C52 52 62 50 68 42" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="2" stroke-linecap="round" />
+      <path d="M40 48 C46 48 50 46 52 44" fill="none" stroke="#000" stroke-opacity=".15" stroke-width="1.4" />
+    </symbol>
+  </defs>
+</svg>

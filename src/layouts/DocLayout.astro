@@ -1,0 +1,195 @@
+---
+/**
+ * Layout for long-form pages: privacy, terms, support.
+ * The article body is authored as plain HTML in the page and styled here.
+ */
+import Layout from './Layout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  kicker: string;
+  updated?: string;
+  intro?: string;
+}
+
+const { title, description, kicker, updated, intro } = Astro.props;
+---
+
+<Layout title={title} description={description} nav="dark">
+  <Nav />
+  <main id="main" class="doc">
+    <header class="doc__head wrap">
+      <p class="eyebrow">{kicker}{updated && <span class="doc__updated"> · Updated {updated}</span>}</p>
+      <h1 class="display h2">{title}</h1>
+      {intro && <p class="lede muted">{intro}</p>}
+    </header>
+    <article class="doc__body wrap">
+      <slot />
+    </article>
+  </main>
+  <Footer />
+</Layout>
+
+<style>
+  .doc {
+    background: var(--color-chalk);
+    color: var(--color-ink);
+    padding-top: calc(var(--nav-h) + clamp(3rem, 8vw, 6rem));
+    padding-bottom: clamp(5rem, 12vw, 9rem);
+  }
+  .doc__head {
+    max-width: 52rem;
+    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+  .doc__head .eyebrow {
+    margin-bottom: 1.25rem;
+  }
+  .doc__updated {
+    text-transform: none;
+    letter-spacing: 0.08em;
+  }
+  .doc__head .lede {
+    margin-top: 1.5rem;
+  }
+  .doc__body {
+    max-width: 52rem;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    color: color-mix(in srgb, var(--color-ink) 82%, transparent);
+  }
+  .doc__body :global(h2) {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(1.75rem, 2.8vw, 2.25rem);
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: var(--color-ink);
+    margin: 3.5rem 0 1.25rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--color-line);
+  }
+  .doc__body :global(h2:first-child) {
+    border-top: 0;
+    padding-top: 0;
+    margin-top: 0;
+  }
+  .doc__body :global(h3) {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-ink);
+    margin: 2rem 0 0.6rem;
+    letter-spacing: -0.005em;
+  }
+  .doc__body :global(p) {
+    margin: 0 0 1.1rem;
+    text-wrap: pretty;
+  }
+  .doc__body :global(ul),
+  .doc__body :global(ol) {
+    margin: 0 0 1.25rem;
+    padding-left: 1.4rem;
+  }
+  .doc__body :global(li) {
+    margin-bottom: 0.5rem;
+  }
+  .doc__body :global(li::marker) {
+    color: var(--color-mist);
+  }
+  .doc__body :global(strong) {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+  .doc__body :global(a) {
+    color: var(--color-ink);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-ink) 30%, transparent);
+    text-underline-offset: 0.18em;
+    transition: text-decoration-color 0.25s;
+  }
+  .doc__body :global(a:hover) {
+    text-decoration-color: currentColor;
+  }
+  .doc__body :global(.divider) {
+    height: 1px;
+    background: var(--color-line);
+    margin: 2.5rem 0;
+  }
+  .doc__body :global(.contact-box),
+  .doc__body :global(.important-box) {
+    background: var(--color-paper);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+    padding: 1.4rem 1.6rem;
+    margin: 1.5rem 0;
+  }
+  .doc__body :global(.important-box) {
+    border-left: 3px solid var(--color-dawn);
+  }
+  .doc__body :global(.contact-box p),
+  .doc__body :global(.important-box p) {
+    margin: 0 0 0.4rem;
+  }
+  .doc__body :global(.contact-box p:last-child),
+  .doc__body :global(.important-box p:last-child) {
+    margin-bottom: 0;
+  }
+  .doc__body :global(.contact-email) {
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+  .doc__body :global(.response-time) {
+    color: var(--color-mist);
+    font-size: 0.9rem;
+  }
+  .doc__body :global(.caps-text) {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    line-height: 1.6;
+    letter-spacing: 0.03em;
+    color: var(--color-graphite);
+  }
+  .doc__body :global(.intro) {
+    font-size: 1.15rem;
+    color: var(--color-graphite);
+  }
+
+  /* Support FAQ: native disclosure, keyboard-accessible */
+  .doc__body :global(details.faq) {
+    border-top: 1px solid var(--color-line);
+  }
+  .doc__body :global(details.faq:last-of-type) {
+    border-bottom: 1px solid var(--color-line);
+  }
+  .doc__body :global(details.faq summary) {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    font-weight: 600;
+    color: var(--color-ink);
+  }
+  .doc__body :global(details.faq summary::-webkit-details-marker) {
+    display: none;
+  }
+  .doc__body :global(details.faq summary::after) {
+    content: '+';
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--color-mist);
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+  .doc__body :global(details.faq[open] summary::after) {
+    transform: rotate(45deg);
+  }
+  .doc__body :global(details.faq .faq__a) {
+    padding: 0 0 1.25rem;
+    max-width: 44rem;
+  }
+</style>

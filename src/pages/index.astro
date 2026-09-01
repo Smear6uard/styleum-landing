@@ -1,17 +1,38 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Hero from '../components/Hero.astro';
-import OutfitShowcase from '../components/OutfitShowcase.astro';
+import Nav from '../components/Nav.astro';
+import Story from '../components/Story.astro';
+import Label from '../components/Label.astro';
+import Pricing from '../components/Pricing.astro';
+import FAQ from '../components/FAQ.astro';
+import FinalCTA from '../components/FinalCTA.astro';
 import Footer from '../components/Footer.astro';
+import { site } from '../site';
+import { faqs } from '../content/faqs';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
 ---
 
-<Layout
-  title="Styleum - Wake Up Styled"
-  description="Styleum is an AI-powered outfit planner that builds daily outfits from clothes you already own. Wake up to 4 curated looks every morning."
->
-  <main>
-    <Hero />
-    <OutfitShowcase />
+<Layout title={site.name} description={site.description} schema={[faqSchema]} nav="light">
+  <Nav />
+  <main id="main">
+    <Story />
+    <Label />
+    <Pricing />
+    <FAQ />
+    <FinalCTA />
   </main>
   <Footer />
 </Layout>
+
+<script>
+  import '../scripts/motion';
+</script>

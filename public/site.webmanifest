@@ -1,21 +1,13 @@
 {
-  "name": "Styleum",
+  "name": "Styleum: Daily Fits",
   "short_name": "Styleum",
-  "description": "AI-powered outfit planner that builds daily outfits from clothes you already own.",
+  "description": "Four outfits from the clothes you already own, every morning at 9:00.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#FAFAFA",
-  "theme_color": "#111111",
+  "background_color": "#f4f3ee",
+  "theme_color": "#0b0c10",
   "icons": [
-    {
-      "src": "/android-chrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
+    { "src": "/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png" }
   ]
 }

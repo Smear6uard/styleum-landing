@@ -1,87 +1,160 @@
 ---
-const faqs = [
-  {
-    question: 'Will it actually match my style?',
-    answer: 'Yes. Styleum learns from what you wear and what you skip. The more you use it, the better it gets at understanding your preferences. Most users see noticeably better suggestions within the first week.',
-  },
-  {
-    question: 'What if I only have 20 items?',
-    answer: "That's plenty. Some of the best-dressed people have minimal wardrobes. Styleum works with whatever you have and helps you see new combinations you might have missed.",
-  },
-  {
-    question: 'How long does setup take?',
-    answer: 'About 2 minutes. Take a few photos of your clothes, and you are ready to go. You can add more items anytime.',
-  },
-  {
-    question: 'Can I use it for specific occasions?',
-    answer: 'Absolutely. Pro users can request outfits for specific events—date night, job interview, casual Friday. Styleum factors in the context along with weather and your style.',
-  },
-];
+import { faqs } from '../content/faqs';
 ---
 
-<section id="faq" class="relative z-50 -mt-16">
-  <div class="bg-[#FAFAF8] rounded-t-[3rem] pt-24 pb-32 shadow-[0_-10px_60px_rgba(0,0,0,0.08)]">
-    <div class="max-w-3xl mx-auto px-6">
-      <!-- Section Header -->
-      <div class="text-center mb-16">
-        <p class="text-xs uppercase tracking-[0.2em] text-[#3D3329] font-semibold mb-4">FAQ</p>
-        <h2 class="font-display text-4xl md:text-5xl lg:text-6xl font-bold tracking-[-0.02em] text-[#111111]">
-          You're probably wondering...
-        </h2>
-      </div>
+<section id="faq" class="faq section" data-nav-theme="dark">
+  <div class="wrap faq__grid">
+    <div class="faq__head">
+      <p class="eyebrow" data-reveal>Questions</p>
+      <h2 class="display h2" data-lines>
+        <span class="line"><span class="line__in">Before</span></span>
+        <span class="line"><span class="line__in">you <em>ask.</em></span></span>
+      </h2>
+    </div>
 
-      <!-- FAQ Accordion -->
-      <div class="space-y-4">
-        {faqs.map((faq, i) => (
-          <div
-            class="faq-item reveal border-b border-[#E8E4DE] pb-4 hover:bg-[#F5F2EE] transition-colors rounded-lg px-2 -mx-2"
-            style={`--delay: ${i * 0.1}s;`}
-          >
-            <button
-              class="faq-trigger w-full flex items-center justify-between text-left py-4 group"
-              aria-expanded="false"
-            >
-              <span class="font-display text-xl md:text-2xl font-semibold text-dark pr-8">
-                {faq.question}
-              </span>
-              <span class="faq-icon text-2xl text-[#3D3329] flex-shrink-0">
-                +
-              </span>
-            </button>
-            <div class="faq-content">
-              <div>
-                <p class="text-gray-600 pb-4 leading-relaxed">
-                  {faq.answer}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+    <div class="faq__list">
+      {faqs.map((f, i) => (
+        <details class="q" data-reveal style={`--d:${i * 60}ms`}>
+          <summary>
+            <span>{f.q}</span>
+            <span class="q__mark" aria-hidden="true"></span>
+          </summary>
+          <div class="q__a"><p>{f.a}</p></div>
+        </details>
+      ))}
     </div>
   </div>
 </section>
 
 <script>
-  const faqItems = document.querySelectorAll('.faq-item');
-
-  faqItems.forEach((item) => {
-    const trigger = item.querySelector('.faq-trigger');
-
-    trigger?.addEventListener('click', () => {
-      const isOpen = item.classList.contains('open');
-
-      // Close all other items
-      faqItems.forEach((other) => {
-        if (other !== item) {
-          other.classList.remove('open');
-          other.querySelector('.faq-trigger')?.setAttribute('aria-expanded', 'false');
-        }
-      });
-
-      // Toggle current item
-      item.classList.toggle('open');
-      trigger.setAttribute('aria-expanded', (!isOpen).toString());
+  // Animate the answer height; native <details> keeps keyboard and no-JS behaviour.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll<HTMLDetailsElement>('details.q').forEach((d) => {
+    const summary = d.querySelector('summary')!;
+    const body = d.querySelector<HTMLElement>('.q__a')!;
+    summary.addEventListener('click', (e) => {
+      if (reduce) return;
+      e.preventDefault();
+      if (d.open) {
+        const h = body.offsetHeight;
+        body.style.height = `${h}px`;
+        requestAnimationFrame(() => {
+          body.style.height = '0px';
+        });
+        body.addEventListener(
+          'transitionend',
+          () => {
+            d.open = false;
+            body.style.height = '';
+          },
+          { once: true },
+        );
+      } else {
+        d.open = true;
+        const h = body.scrollHeight;
+        body.style.height = '0px';
+        requestAnimationFrame(() => {
+          body.style.height = `${h}px`;
+        });
+        body.addEventListener(
+          'transitionend',
+          () => {
+            body.style.height = '';
+          },
+          { once: true },
+        );
+      }
     });
   });
 </script>
+
+<style>
+  .faq {
+    background: var(--color-chalk);
+    color: var(--color-ink);
+  }
+  .faq__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+  }
+  .faq__head .h2 {
+    margin-top: 1.25rem;
+  }
+  .faq__list {
+    border-top: 1px solid var(--color-line);
+  }
+  .q {
+    border-bottom: 1px solid var(--color-line);
+  }
+  .q summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.4rem 0;
+    font-size: clamp(1.1rem, 1.6vw, 1.35rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    transition: color 0.3s;
+  }
+  .q summary::-webkit-details-marker {
+    display: none;
+  }
+  .q summary:hover {
+    color: var(--color-graphite);
+  }
+  .q__mark {
+    position: relative;
+    flex: none;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    border: 1px solid var(--color-line);
+    transition: transform 0.6s var(--ease-out-expo), background-color 0.3s, border-color 0.3s;
+  }
+  .q__mark::before,
+  .q__mark::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0.65rem;
+    height: 1px;
+    background: currentColor;
+    transform: translate(-50%, -50%);
+  }
+  .q__mark::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+  }
+  .q[open] .q__mark {
+    transform: rotate(135deg);
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-chalk);
+  }
+  .q__a {
+    overflow: hidden;
+    transition: height 0.55s var(--ease-out-expo);
+  }
+  .q__a p {
+    margin: 0;
+    padding: 0 0 1.6rem;
+    max-width: 40rem;
+    color: var(--color-graphite);
+    text-wrap: pretty;
+  }
+
+  @media (min-width: 900px) {
+    .faq__grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr);
+      align-items: start;
+    }
+    .faq__head {
+      position: sticky;
+      top: calc(var(--nav-h) + 2rem);
+    }
+  }
+</style>

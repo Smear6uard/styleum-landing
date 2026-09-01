@@ -1,176 +1,402 @@
 @import "tailwindcss";
 
-/* Styleum Design System */
+/* ------------------------------------------------------------------
+   Styleum design tokens
+   Ink and chalk carry the page. The 9:00 sky (indigo → sky → dawn) is
+   the only colour moment and is used where light belongs: the phone
+   wallpaper, one horizon rule, hover states.
+------------------------------------------------------------------- */
 @theme {
-  /* Warm Backgrounds */
-  --color-bg-dark: #1A1816;        /* Warm near-black (hero, footer, CTA) */
-  --color-bg-light: #FAFAF8;       /* Warm off-white */
-  --color-bg-cream: #F5F2EE;       /* Warm cream (alternating sections) */
-  --color-bg-white: #ffffff;
+  --color-ink: #0b0c10;
+  --color-ink-2: #15161c;
+  --color-indigo: #1c2140;
+  --color-dawn: #e9b48e;
+  --color-sky: #9db4d6;
+  --color-chalk: #f4f3ee;
+  --color-chalk-2: #eae8e1;
+  --color-paper: #ffffff;
+  --color-graphite: #4b4e57;
+  --color-mist: #8e9098;
+  --color-line: #dbd9d1;
+  --color-line-dark: #24262e;
 
-  /* Text Colors */
-  --color-text-primary: #1A1A1A;   /* Near black */
-  --color-text-secondary: #6B6B6B; /* Gray */
-  --color-text-tertiary: #9A9A9A;  /* Light gray */
-  --color-text-white: #ffffff;     /* White on dark */
-  --color-text-muted: #A8A8A8;     /* Muted on dark */
+  --font-display: "Bodoni Moda", "Bodoni 72", Didot, "Times New Roman", serif;
+  --font-sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Schibsted Grotesk", sans-serif;
 
-  /* Brown Accents */
-  --color-brown-primary: #2E241C;  /* Accent, borders */
-  --color-brown-secondary: #3D3329; /* Icons, labels, kickers */
-  --color-brown-light: #8B7355;    /* Subtle highlights, hover */
-
-  /* Borders */
-  --color-border-light: #E8E4DE;   /* Warm gray border */
-  --color-border-dark: #2E2A27;    /* Border on dark sections */
-
-  /* Legacy aliases (for compatibility) */
-  --color-slate: #6F7C86;
-  --color-slate-dark: #3F474F;
-  --color-slate-light: #9AA3AA;
-  --color-dark: #1A1816;
-  --color-light: #FAFAF8;
-  --color-border: #E8E4DE;
-  --color-accent: #8B7355;
-
-  /* Typography */
-  --font-display: 'Clash Display', sans-serif;
-  --font-body: 'Satoshi', sans-serif;
-  --font-sans: 'Satoshi', ui-sans-serif, system-ui, sans-serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-ios: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* Font utility classes */
-.font-display {
-  font-family: var(--font-display);
+:root {
+  --nav-h: 72px;
+  --gutter: clamp(1.25rem, 4.5vw, 4rem);
+  --measure: 34rem;
+  --sky: linear-gradient(180deg, #0f1330 0%, #1c2140 34%, #5b6c9e 62%, #c99a8a 82%, #e9b48e 100%);
+  color-scheme: light;
 }
 
-.font-body {
-  font-family: var(--font-body);
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  background: var(--color-ink);
 }
 
-/* Custom gradient */
-.bg-gradient-radial {
-  background: radial-gradient(circle, var(--tw-gradient-stops));
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--color-chalk);
+  color: var(--color-ink);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
-/* Kicker style */
-.kicker {
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-slate);
+::selection {
+  background: var(--color-dawn);
+  color: var(--color-ink);
 }
 
-/* Noise overlay (global, fixed) */
-.noise-overlay {
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+.skip {
   position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 0.03;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 100;
+  padding: 0.6rem 1rem;
+  background: var(--color-ink);
+  color: var(--color-chalk);
+  border-radius: 999px;
+  font-size: 0.875rem;
+  transform: translateY(-200%);
+  transition: transform 0.3s var(--ease-out-expo);
+}
+.skip:focus-visible {
+  transform: none;
 }
 
-/* Grain overlay (for individual sections) */
-.grain-overlay {
+/* ------------------------------------------------------------------
+   Type
+------------------------------------------------------------------- */
+.display {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 0.95;
+  font-optical-sizing: auto;
+  text-wrap: balance;
+}
+.display em,
+.display i {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.h1 {
+  font-size: clamp(3.5rem, 9.6vw, 8.75rem);
+}
+.h2 {
+  font-size: clamp(2.6rem, 5.8vw, 5.5rem);
+}
+.h3 {
+  font-size: clamp(1.9rem, 3.2vw, 2.75rem);
+}
+
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.62;
+}
+
+.lede {
+  font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
+  line-height: 1.5;
+  max-width: var(--measure);
+  text-wrap: pretty;
+}
+
+.muted {
+  color: color-mix(in srgb, currentColor 62%, transparent);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  letter-spacing: 0.02em;
+}
+
+/* ------------------------------------------------------------------
+   Buttons
+------------------------------------------------------------------- */
+.btn {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  height: 3.25rem;
+  padding: 0 1.6rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    transform 0.6s var(--ease-out-expo),
+    background-color 0.35s,
+    color 0.35s,
+    border-color 0.35s,
+    box-shadow 0.6s var(--ease-out-expo);
+}
+.btn:hover {
+  transform: translateY(-2px);
+}
+.btn:active {
+  transform: translateY(0) scale(0.985);
+  transition-duration: 0.15s;
+}
+.btn--solid {
+  background: var(--color-ink);
+  color: var(--color-chalk);
+}
+.btn--solid:hover {
+  box-shadow: 0 18px 34px -16px rgba(11, 12, 16, 0.6);
+}
+.btn--chalk {
+  background: var(--color-chalk);
+  color: var(--color-ink);
+}
+.btn--chalk:hover {
+  box-shadow: 0 18px 40px -14px rgba(233, 180, 142, 0.45);
+}
+.btn--ghost {
+  color: currentColor;
+  border: 1px solid color-mix(in srgb, currentColor 26%, transparent);
+}
+.btn--ghost:hover {
+  border-color: currentColor;
+}
+.btn--sm {
+  height: 2.5rem;
+  padding: 0 1.1rem;
+  font-size: 0.85rem;
+}
+.btn__arrow {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.6s var(--ease-out-expo);
+}
+.btn:hover .btn__arrow {
+  transform: translateX(4px);
+}
+
+/* ------------------------------------------------------------------
+   Layout
+------------------------------------------------------------------- */
+.wrap {
+  width: 100%;
+  max-width: 82rem;
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.section {
+  padding-block: clamp(5.5rem, 13vw, 11rem);
+}
+.rule {
+  height: 1px;
+  background: color-mix(in srgb, currentColor 14%, transparent);
+}
+.horizon {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-sky) 30%, var(--color-dawn) 70%, transparent);
+  opacity: 0.8;
+}
+
+/* ------------------------------------------------------------------
+   Reveals: pure CSS, driven by a class the observer adds. Without JS
+   nothing is hidden.
+------------------------------------------------------------------- */
+html.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 1s var(--ease-out-expo),
+    transform 1s var(--ease-out-expo);
+  transition-delay: var(--d, 0ms);
+}
+html.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+}
+/* If the motion script fails for any reason, show everything. */
+html.no-motion [data-reveal],
+html.no-motion [data-intro],
+html.no-motion [data-lines] .line__in {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.line {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+.line__in {
+  display: block;
+  will-change: transform;
+}
+html.js [data-lines] .line__in {
+  transform: translateY(115%);
+  transition: transform 1.2s var(--ease-out-expo);
+}
+html.js [data-lines].is-in .line__in {
+  transform: none;
+}
+html.js [data-lines].is-in .line:nth-child(2) .line__in {
+  transition-delay: 0.09s;
+}
+html.js [data-lines].is-in .line:nth-child(3) .line__in {
+  transition-delay: 0.18s;
+}
+
+/* ------------------------------------------------------------------
+   Texture, only where a dark surface needs depth
+------------------------------------------------------------------- */
+.grain {
   position: relative;
 }
-
-.grain-overlay::after {
-  content: '';
+.grain::before {
+  content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  opacity: 0.03;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: screen;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Hero card deal animation */
-@keyframes dealCard {
+/* ------------------------------------------------------------------
+   Keyframes (global so scoped component styles can share them)
+------------------------------------------------------------------- */
+@keyframes notifIn {
+  from {
+    opacity: 0;
+    transform: translateY(-18px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes dealIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes tagIn {
   0% {
     opacity: 0;
-    transform: translateY(-100px) rotate(0deg) scale(0.9);
+    transform: translateY(8px) scale(0.9);
   }
   60% {
     opacity: 1;
+    transform: translateY(-2px) scale(1.03);
   }
   100% {
     opacity: 1;
-    transform: translateY(0) rotate(var(--rotation, 0deg)) translateX(var(--translate-x, 0)) scale(1);
+    transform: none;
+  }
+}
+@keyframes tapPulse {
+  0%,
+  100% {
+    transform: none;
+  }
+  40% {
+    transform: scale(0.96);
+  }
+  70% {
+    transform: scale(1.01);
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
   }
 }
 
-.deal-card {
-  opacity: 0;
-  animation: dealCard 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-  animation-delay: var(--deal-delay, 0s);
-}
-
-/* Reveal animations with custom delay support */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-  transition-delay: var(--delay, 0s);
-}
-
-.reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.animate-on-scroll {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-  transition-delay: var(--delay, 0s);
-}
-
-.animate-on-scroll.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Stagger children animations */
-.stagger-children.visible > * {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.stagger-children > * {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-}
-
-.stagger-children > *:nth-child(1) { transition-delay: 0.1s; }
-.stagger-children > *:nth-child(2) { transition-delay: 0.2s; }
-.stagger-children > *:nth-child(3) { transition-delay: 0.3s; }
-.stagger-children > *:nth-child(4) { transition-delay: 0.4s; }
-.stagger-children > *:nth-child(5) { transition-delay: 0.5s; }
-.stagger-children > *:nth-child(6) { transition-delay: 0.6s; }
-
-/* FAQ Accordion animation */
-.faq-icon {
-  transition: transform 0.3s ease;
-}
-
-.faq-item.open .faq-icon {
-  transform: rotate(45deg);
-}
-
-.faq-content {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease;
-}
-
-.faq-item.open .faq-content {
-  grid-template-rows: 1fr;
-}
-
-.faq-content > div {
-  overflow: hidden;
+/* ------------------------------------------------------------------
+   Reduced motion
+------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  html.js [data-reveal],
+  html.js [data-lines] .line__in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

@@ -1,145 +1,157 @@
 ---
+import Cta from './Cta.astro';
+
+const links = [
+  { label: 'How it works', href: '/#wardrobe' },
+  { label: 'The label', href: '/#label' },
+  { label: 'Pricing', href: '/#pricing' },
+  { label: 'FAQ', href: '/#faq' },
+];
 ---
 
-<header
-  id="header"
-  class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-  data-scrolled="false"
->
-  <div class="max-w-7xl mx-auto px-6">
-    <nav class="flex items-center justify-between h-16 md:h-20">
-      <!-- Logo + Tagline -->
-      <div class="flex items-center gap-4">
-        <a href="/" class="flex items-center gap-2 text-xl font-display font-bold header-text transition-colors">
-          <img src="/StyleumLogo1.png" alt="" class="h-6 w-6 header-logo transition-all" />
-          Styleum
-        </a>
-        <span class="hidden sm:block text-[10px] font-semibold tracking-widest uppercase header-tagline transition-colors">
-          Outfits at 9AM
-        </span>
-      </div>
+<header class="nav" id="nav">
+  <a class="nav__brand" href="/" aria-label="Styleum home">
+    <img class="nav__mark" src="/StyleumLogo1.png" alt="" width="28" height="28" decoding="async" />
+    <span class="nav__word">Styleum</span>
+  </a>
 
-      <!-- Nav Links (desktop) -->
-      <div class="hidden md:flex items-center gap-8">
-        <a href="#product-showcase" class="text-sm header-link transition-colors">
-          How it works
-        </a>
-      </div>
+  <nav class="nav__links" aria-label="Primary">
+    {links.map((l) => <a href={l.href}>{l.label}</a>)}
+  </nav>
 
-      <!-- CTA Button with 9AM Badge -->
-      <a
-        href="#"
-        class="header-cta flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-full transition-all"
-      >
-        <span class="header-cta-badge text-xs font-bold">9AM</span>
-        <span>Get started</span>
-      </a>
-    </nav>
-  </div>
+  <Cta class="nav__cta" size="sm" text="short" />
 </header>
 
 <style>
-  /* Default: Transparent over dark hero */
-  header[data-scrolled="false"] {
-    background-color: transparent;
+  .nav {
+    --fg: var(--color-chalk);
+    --bg: var(--color-ink);
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: 60;
+    height: var(--nav-h);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-inline: var(--gutter);
+    color: var(--fg);
+    transition:
+      color 0.6s,
+      transform 0.6s var(--ease-out-expo);
+  }
+  :global(html[data-nav='dark']) .nav {
+    --fg: var(--color-ink);
+    --bg: var(--color-chalk);
+  }
+  .nav::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(1.3);
+    backdrop-filter: blur(16px) saturate(1.3);
+    border-bottom: 1px solid color-mix(in srgb, var(--fg) 8%, transparent);
+    opacity: 0;
+    transition: opacity 0.5s, background-color 0.6s;
+  }
+  .nav.is-scrolled::before {
+    opacity: 1;
+  }
+  .nav.is-hidden {
+    transform: translateY(-100%);
   }
 
-  header[data-scrolled="false"] .header-text {
-    color: #FFFFFF;
+  .nav__brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
   }
-
-  header[data-scrolled="false"] .header-logo {
+  .nav__mark {
+    width: 26px;
+    height: 26px;
+    transition: filter 0.6s;
+  }
+  :global(html:not([data-nav='dark'])) .nav__mark {
     filter: invert(1);
   }
-
-  header[data-scrolled="false"] .header-tagline {
-    color: #9AA3AA;
-  }
-
-  header[data-scrolled="false"] .header-link {
-    color: #9AA3AA;
-  }
-
-  header[data-scrolled="false"] .header-link:hover {
-    color: #FFFFFF;
-  }
-
-  header[data-scrolled="false"] .header-cta {
-    color: #FFFFFF;
-    background-color: #3F474F;
-  }
-
-  header[data-scrolled="false"] .header-cta-badge {
-    color: #9AA3AA;
-  }
-
-  header[data-scrolled="false"] .header-cta:hover {
-    background-color: #4a545c;
+  .nav__word {
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    letter-spacing: -0.01em;
+    line-height: 1;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
-  /* Scrolled: Frosted glass background */
-  header[data-scrolled="true"] {
-    background-color: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid #E5E7EB;
+  .nav__links {
+    display: none;
+    gap: 2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  .nav__links a {
+    position: relative;
+    text-decoration: none;
+    opacity: 0.72;
+    transition: opacity 0.3s;
+  }
+  .nav__links a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -6px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  .nav__links a:hover {
+    opacity: 1;
+  }
+  .nav__links a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
-  header[data-scrolled="true"] .header-text {
-    color: #111111;
+  .nav :global(.nav__cta) {
+    background: var(--fg);
+    color: var(--bg);
   }
 
-  header[data-scrolled="true"] .header-logo {
-    filter: none;
-  }
-
-  header[data-scrolled="true"] .header-tagline {
-    color: #6F7C86;
-  }
-
-  header[data-scrolled="true"] .header-link {
-    color: #6B7280;
-  }
-
-  header[data-scrolled="true"] .header-link:hover {
-    color: #111111;
-  }
-
-  header[data-scrolled="true"] .header-cta {
-    color: #FFFFFF;
-    background-color: #3F474F;
-  }
-
-  header[data-scrolled="true"] .header-cta-badge {
-    color: #9AA3AA;
-  }
-
-  header[data-scrolled="true"] .header-cta:hover {
-    background-color: #4a545c;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  @media (min-width: 900px) {
+    .nav__links {
+      display: flex;
+    }
   }
 </style>
 
 <script>
-  const header = document.getElementById('header');
-  const hero = document.getElementById('hero');
-
-  if (header && hero) {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          header.dataset.scrolled = (!entry.isIntersecting).toString();
-        });
+  const nav = document.getElementById('nav');
+  if (nav) {
+    let last = window.scrollY;
+    let ticking = false;
+    const update = () => {
+      const y = window.scrollY;
+      nav.classList.toggle('is-scrolled', y > 24);
+      const goingDown = y > last && y > 240;
+      nav.classList.toggle('is-hidden', goingDown);
+      last = y;
+      ticking = false;
+    };
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
       },
-      {
-        threshold: 0,
-        rootMargin: '-80px 0px 0px 0px',
-      }
+      { passive: true },
     );
-
-    observer.observe(hero);
+    update();
   }
 </script>

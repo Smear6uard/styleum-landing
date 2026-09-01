@@ -1,0 +1,26 @@
+---
+import type { GarmentKind } from '../content/wardrobe';
+
+interface Props {
+  kind: GarmentKind;
+  color: string;
+  class?: string;
+  title?: string;
+}
+
+const { kind, color, class: className = '', title } = Astro.props;
+---
+
+<svg class={`g ${className}`} style={`color:${color}`} viewBox="0 0 100 100" role={title ? 'img' : undefined} aria-hidden={title ? undefined : 'true'}>
+  {title && <title>{title}</title>}
+  <use href={`#g-${kind}`} />
+</svg>
+
+<style>
+  .g {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, 0.06));
+  }
+</style>
