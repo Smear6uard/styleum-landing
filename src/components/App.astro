@@ -1,0 +1,230 @@
+---
+/**
+ * The app itself: the code-rendered phone, with its five screens on a
+ * tab list beside it. Tabs advance on their own while the section is in
+ * view and stop for good the moment someone picks one.
+ */
+import Garments from './Garments.astro';
+import Phone from './Phone.astro';
+import { site } from '../site';
+
+const screens = [
+  { id: 'lock', title: `${site.ritualTime}, on your lock screen`, body: 'One notification. Four looks behind it.' },
+  { id: 'today', title: 'Today’s four', body: 'Ranked for you, checked against the sky.' },
+  { id: 'wear', title: 'Wearing this', body: 'One tap. Your streak and history keep count.' },
+  { id: 'wardrobe', title: 'Your wardrobe', body: 'Every piece cut out, named and tagged.' },
+  { id: 'styleme', title: 'Style Me', body: 'Ask for an occasion, get a look for it.' },
+];
+---
+
+<Garments />
+
+<section id="app" class="app section grain" data-nav-theme="light">
+  <div class="wrap app__grid">
+    <div class="app__copy">
+      <p class="eyebrow" data-reveal>The app</p>
+      <h2 class="display h2" data-lines>
+        <span class="line"><span class="line__in">All of it,</span></span>
+        <span class="line"><span class="line__in">in your</span></span>
+        <span class="line"><span class="line__in"><em>pocket.</em></span></span>
+      </h2>
+
+      <div class="tabs" role="tablist" aria-label="App screens" data-reveal style="--d:120ms">
+        {screens.map((s, i) => (
+          <button class="tab" type="button" role="tab" data-screen={s.id} aria-selected={i === 0 ? 'true' : 'false'}>
+            <span class="tab__n">0{i + 1}</span>
+            <span class="tab__text">
+              <span class="tab__title">{s.title}</span>
+              <span class="tab__body">{s.body}</span>
+            </span>
+            <span class="tab__bar" aria-hidden="true"></span>
+          </button>
+        ))}
+      </div>
+    </div>
+
+    <div class="app__phone" data-reveal style="--d:80ms">
+      <Phone />
+    </div>
+  </div>
+</section>
+
+<script>
+  const section = document.getElementById('app');
+  const phone = document.getElementById('phone');
+  if (section && phone) {
+    const tabs = Array.from(section.querySelectorAll<HTMLButtonElement>('.tab'));
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const DWELL = 4200;
+    let index = 0;
+    let timer = 0;
+    let auto = !reduce;
+    let visible = false;
+
+    const show = (i: number) => {
+      index = (i + tabs.length) % tabs.length;
+      tabs.forEach((t, n) => {
+        t.setAttribute('aria-selected', String(n === index));
+        t.classList.remove('is-running');
+      });
+      phone.dataset.screen = tabs[index].dataset.screen;
+      if (auto && visible) {
+        // restart the progress bar
+        void tabs[index].offsetWidth;
+        tabs[index].classList.add('is-running');
+      }
+    };
+    const schedule = () => {
+      window.clearTimeout(timer);
+      if (!auto || !visible) return;
+      timer = window.setTimeout(() => {
+        show(index + 1);
+        schedule();
+      }, DWELL);
+    };
+
+    tabs.forEach((t, i) =>
+      t.addEventListener('click', () => {
+        auto = false;
+        window.clearTimeout(timer);
+        show(i);
+      }),
+    );
+
+    new IntersectionObserver(
+      (entries) => {
+        visible = entries[0].isIntersecting;
+        if (visible) {
+          show(index);
+          schedule();
+        } else {
+          window.clearTimeout(timer);
+        }
+      },
+      { threshold: 0.35 },
+    ).observe(section);
+  }
+</script>
+
+<style>
+  .app {
+    position: relative;
+    background: var(--color-ink);
+    color: var(--color-chalk);
+    overflow: hidden;
+  }
+  .app__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    align-items: center;
+  }
+  .app__copy .h2 {
+    margin: 1.25rem 0 clamp(2rem, 4vw, 3.25rem);
+  }
+
+  .tabs {
+    display: grid;
+    border-top: 1px solid var(--color-line-dark);
+  }
+  .tab {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.4rem 1fr;
+    align-items: baseline;
+    text-align: left;
+    padding: 1.05rem 0;
+    border-bottom: 1px solid var(--color-line-dark);
+    opacity: 0.46;
+    transition: opacity 0.4s;
+  }
+  .tab:hover {
+    opacity: 0.8;
+  }
+  .tab[aria-selected='true'] {
+    opacity: 1;
+  }
+  .tab__n {
+    font-size: 0.75rem;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.6;
+  }
+  .tab__text {
+    display: grid;
+  }
+  .tab__title {
+    font-weight: 700;
+    font-stretch: 112%;
+    font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+    letter-spacing: -0.012em;
+    line-height: 1.2;
+  }
+  .tab__body {
+    font-size: 0.9375rem;
+    color: color-mix(in srgb, currentColor 64%, transparent);
+    overflow: hidden;
+    max-height: 0;
+    transition:
+      max-height 0.6s var(--ease-out-expo),
+      padding 0.6s var(--ease-out-expo);
+  }
+  .tab[aria-selected='true'] .tab__body {
+    max-height: 3.2em;
+    padding-top: 0.3rem;
+  }
+  .tab__bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--color-sky), var(--color-dawn));
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+  .tab[aria-selected='true'] .tab__bar {
+    transform: scaleX(1);
+  }
+  .tab.is-running .tab__bar {
+    animation: tabRun 4.2s linear both;
+  }
+  @keyframes tabRun {
+    from { transform: scaleX(0); }
+    to { transform: scaleX(1); }
+  }
+
+  .app__phone {
+    display: flex;
+    justify-content: center;
+  }
+  .app__phone :global(.phone) {
+    width: min(21rem, 74vw);
+  }
+  /* the glow belongs to the lock screen only; on a dark section it stays for every screen, dimmer */
+  .app__phone :global(.phone:not([data-screen='lock']) .phone__glow) {
+    opacity: 0.45;
+  }
+
+  @media (min-width: 900px) {
+    .app__grid {
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    }
+    .app__phone {
+      justify-content: flex-end;
+      padding-right: clamp(0rem, 5vw, 5rem);
+    }
+    .app__phone :global(.phone) {
+      width: min(22.5rem, 40vh, 100%);
+    }
+  }
+  @media (max-width: 899px) {
+    .app__phone {
+      order: -1;
+    }
+    .app__phone :global(.phone) {
+      width: min(15.5rem, 62vw);
+    }
+  }
+</style>

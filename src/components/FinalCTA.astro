@@ -1,31 +1,48 @@
 ---
+/**
+ * The closing shot. The 3D stage is borrowed back from the story for it
+ * (scripts/motion.ts docks the canvas in .finale__stage): tomorrow's look,
+ * already laid out, a few hours before the alarm. The clock is real.
+ */
 import { site, cta } from '../site';
 import Cta from './Cta.astro';
 ---
 
-<section id="download" class="cta grain" data-nav-theme="light">
-  <div class="horizon"></div>
-  <div class="wrap cta__inner">
-    <p class="eyebrow" data-reveal>Next looks in <span class="cta__count" data-countdown>—</span></p>
-    <h2 class="display h1 cta__title" data-lines>
-      <span class="line"><span class="line__in"><span data-day>Tomorrow,</span></span></span>
-      <span class="line"><span class="line__in"><em>{site.ritualTime} AM.</em></span></span>
-    </h2>
-    <p class="lede cta__lede" data-reveal style="--d:120ms">
-      Four outfits from the clothes you already own, on your lock screen before you have had coffee.
-    </p>
-    <div class="cta__row" data-reveal style="--d:200ms">
-      <Cta variant="chalk" />
-      <p class="mono cta__note">{cta.note}</p>
+<section id="download" class="finale" data-nav-theme="light">
+  <div class="finale__stage" id="finale-stage" aria-hidden="true"></div>
+  <div class="finale__shade" aria-hidden="true"></div>
+
+  <div class="finale__inner">
+    <div class="finale__copy">
+      <p class="eyebrow" data-reveal>Your next four looks</p>
+      <p class="clock display" data-reveal aria-hidden="true">
+        <span data-clock="h">00</span><i>:</i><span data-clock="m">00</span><i>:</i><span data-clock="s">00</span>
+      </p>
+      <h2 class="display h2 finale__title" data-lines>
+        <span class="line"><span class="line__in"><span data-day>Tomorrow,</span></span></span>
+        <span class="line"><span class="line__in">{site.ritualTime} AM.</span></span>
+      </h2>
+      <p class="lede finale__lede" data-reveal style="--d:120ms">
+        Four outfits from the clothes you already own, on your lock screen before you have had coffee.
+      </p>
+      <div class="finale__row" data-reveal style="--d:200ms">
+        <Cta variant="chalk" />
+        <p class="finale__note">{cta.note}</p>
+      </div>
+      <p class="sr-only" data-countdown-text aria-live="off"></p>
     </div>
   </div>
-  <div class="cta__dawn" aria-hidden="true"></div>
 </section>
 
 <script>
   // A real clock: time until the visitor's next 9:00, in their own timezone.
-  const out = document.querySelector<HTMLElement>('[data-countdown]');
+  const parts = {
+    h: document.querySelector<HTMLElement>('[data-clock="h"]'),
+    m: document.querySelector<HTMLElement>('[data-clock="m"]'),
+    s: document.querySelector<HTMLElement>('[data-clock="s"]'),
+  };
   const day = document.querySelector<HTMLElement>('[data-day]');
+  const sr = document.querySelector<HTMLElement>('[data-countdown-text]');
   const pad = (n: number) => String(n).padStart(2, '0');
   const tick = () => {
     const now = new Date();
@@ -36,77 +53,113 @@ import Cta from './Cta.astro';
     const h = Math.floor(diff / 3.6e6);
     const m = Math.floor((diff % 3.6e6) / 6e4);
     const s = Math.floor((diff % 6e4) / 1e3);
-    if (out) out.textContent = `${pad(h)}h ${pad(m)}m ${pad(s)}s`;
+    if (parts.h) parts.h.textContent = pad(h);
+    if (parts.m) parts.m.textContent = pad(m);
+    if (parts.s) parts.s.textContent = pad(s);
     if (day) day.textContent = next.getDate() === now.getDate() ? 'Today,' : 'Tomorrow,';
+    if (sr && s === 0) sr.textContent = `${h} hours and ${m} minutes until your next four looks.`;
   };
   tick();
   setInterval(tick, 1000);
 </script>
 
 <style>
-  .cta {
+  .finale {
     position: relative;
     overflow: hidden;
-    background: var(--color-ink);
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
     color: var(--color-chalk);
-    padding-block: clamp(6rem, 16vw, 13rem) clamp(7rem, 18vw, 15rem);
+    /* the picture before, or without, WebGL */
+    background:
+      radial-gradient(70% 60% at 72% 100%, rgba(233, 180, 142, 0.26), rgba(91, 108, 158, 0.14) 46%, transparent 74%),
+      var(--color-ink);
   }
-  .horizon {
+  .finale__stage {
     position: absolute;
-    inset: 0 0 auto 0;
+    inset: 0;
   }
-  .cta__inner {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  .cta__count {
-    font-variant-numeric: tabular-nums;
-    opacity: 1;
-    color: var(--color-dawn);
-  }
-  .cta__title {
-    margin: 1.5rem 0 1.75rem;
-  }
-  .cta__lede {
-    margin: 0 auto 2.5rem;
-    opacity: 0.72;
-    text-align: center;
-  }
-  .cta__row {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-  .cta__note {
-    margin: 0;
-    opacity: 0.55;
-  }
-  .cta__dawn {
+  .finale__stage :global(canvas) {
     position: absolute;
-    left: 50%;
-    bottom: -40vw;
-    width: 140vw;
-    height: 70vw;
-    transform: translateX(-50%);
-    border-radius: 50%;
-    background: radial-gradient(
-      closest-side,
-      rgba(233, 180, 142, 0.3) 0%,
-      rgba(180, 140, 145, 0.2) 28%,
-      rgba(91, 108, 158, 0.14) 50%,
-      rgba(91, 108, 158, 0.04) 68%,
-      transparent 80%
-    );
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .finale__shade {
+    position: absolute;
+    inset: 0;
     pointer-events: none;
+    background: linear-gradient(90deg, rgba(5, 6, 10, 0.78) 0%, rgba(5, 6, 10, 0.42) 36%, transparent 64%);
   }
-  @media (min-width: 900px) and (hover: hover) {
-    .cta__dawn {
-      animation: breathe 9s ease-in-out infinite;
+  .finale__inner {
+    position: relative;
+    width: 100%;
+    padding: clamp(6rem, 14vh, 9rem) var(--gutter) clamp(3rem, 9vh, 6rem);
+  }
+  .finale__copy {
+    width: min(100%, 40rem);
+  }
+  .clock {
+    margin: 1.1rem 0 0;
+    font-size: clamp(3.4rem, 8.6vw, 9.5rem);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+    line-height: 0.86;
+    white-space: nowrap;
+  }
+  .clock i {
+    font-style: normal;
+    font-weight: 300;
+    opacity: 0.5;
+    margin: 0 0.02em;
+  }
+  .clock span:last-child {
+    background: linear-gradient(120deg, var(--color-sky), var(--color-dawn));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .finale__title {
+    margin: 1.4rem 0 1.2rem;
+    font-size: clamp(1.5rem, 2.5vw, 2.6rem);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+  }
+  .finale__lede {
+    opacity: 0.8;
+    max-width: 30rem;
+  }
+  .finale__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem 1.4rem;
+    margin-top: 2rem;
+  }
+  .finale__note {
+    margin: 0;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    opacity: 0.6;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 899px) {
+    .finale__shade {
+      background: linear-gradient(0deg, rgba(5, 6, 10, 0.9) 0%, rgba(5, 6, 10, 0.62) 38%, transparent 62%);
+    }
+    .finale__inner {
+      padding-bottom: max(2rem, env(safe-area-inset-bottom));
     }
   }
 </style>

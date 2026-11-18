@@ -62,8 +62,8 @@ const appData = {
   },
 };
 
-const fonts =
-  'https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..700;1,6..96,400..700&family=Geist+Mono:wght@400..600&family=Schibsted+Grotesk:ital,wght@0,400..800;1,400..800&display=swap';
+// One variable family: width 62–125, weight 100–900.
+const fonts = 'https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&display=swap';
 ---
 
 <!doctype html>
@@ -71,7 +71,11 @@ const fonts =
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <script is:inline>document.documentElement.classList.add('js');</script>
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      // If the motion script never runs, nothing stays hidden.
+      setTimeout(function () { document.documentElement.classList.add('is-ready'); }, 2600);
+    </script>
 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />

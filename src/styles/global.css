@@ -4,7 +4,10 @@
    Styleum design tokens
    Ink and chalk carry the page. The 9:00 sky (indigo → sky → dawn) is
    the only colour moment and is used where light belongs: the phone
-   wallpaper, one horizon rule, hover states.
+   wallpaper, one horizon rule, hover states. Colour otherwise comes
+   from the clothes in the 3D scene.
+   One type family, Archivo, used at two widths: wide and heavy for
+   display, normal for reading.
 ------------------------------------------------------------------- */
 @theme {
   --color-ink: #0b0c10;
@@ -20,10 +23,10 @@
   --color-line: #dbd9d1;
   --color-line-dark: #24262e;
 
-  --font-display: "Bodoni Moda", "Bodoni 72", Didot, "Times New Roman", serif;
-  --font-sans: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
-  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
-  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Schibsted Grotesk", sans-serif;
+  --font-display: "Archivo", "Arial Black", "Helvetica Neue", Arial, sans-serif;
+  --font-sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  --font-ui: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-ios: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -49,7 +52,8 @@ body {
   background: var(--color-chalk);
   color: var(--color-ink);
   font-size: 1.0625rem;
-  line-height: 1.55;
+  line-height: 1.5;
+  font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -108,42 +112,48 @@ button {
 ------------------------------------------------------------------- */
 .display {
   font-family: var(--font-display);
-  font-weight: 400;
-  letter-spacing: -0.015em;
-  line-height: 0.95;
-  font-optical-sizing: auto;
+  font-weight: 800;
+  font-stretch: 125%;
+  text-transform: uppercase;
+  letter-spacing: -0.022em;
+  line-height: 0.9;
   text-wrap: balance;
 }
+/* Emphasis is never italic here: it is the same face, simply lighter. */
 .display em,
 .display i {
-  font-style: italic;
-  font-weight: 400;
+  font-style: normal;
+  font-weight: 300;
 }
 
 .h1 {
-  font-size: clamp(3.5rem, 9.6vw, 8.75rem);
+  font-size: clamp(2.9rem, 7.3vw, 8.4rem);
 }
 .h2 {
-  font-size: clamp(2.6rem, 5.8vw, 5.5rem);
+  font-size: clamp(2.15rem, 4.7vw, 5.4rem);
 }
 .h3 {
-  font-size: clamp(1.9rem, 3.2vw, 2.75rem);
+  font-size: clamp(1.35rem, 2.1vw, 1.9rem);
+  line-height: 1;
 }
 
 .eyebrow {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.6875rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
+  font-weight: 700;
+  font-stretch: 112%;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  opacity: 0.62;
+  opacity: 0.7;
+  margin: 0;
 }
 
 .lede {
-  font-size: clamp(1.0625rem, 1.35vw, 1.25rem);
-  line-height: 1.5;
+  font-size: clamp(1.0625rem, 1.3vw, 1.2rem);
+  line-height: 1.48;
   max-width: var(--measure);
   text-wrap: pretty;
+  margin: 0;
 }
 
 .muted {
@@ -151,9 +161,11 @@ button {
 }
 
 .mono {
-  font-family: var(--font-mono);
+  font-family: var(--font-sans);
   font-size: 0.8125rem;
-  letter-spacing: 0.02em;
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
 }
 
 /* ------------------------------------------------------------------
@@ -167,11 +179,12 @@ button {
   justify-content: center;
   gap: 0.65rem;
   height: 3.25rem;
-  padding: 0 1.6rem;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 0.95rem;
-  letter-spacing: -0.005em;
+  padding: 0 1.45rem;
+  border-radius: 0.55rem;
+  font-weight: 700;
+  font-stretch: 108%;
+  font-size: 0.875rem;
+  letter-spacing: 0.005em;
   text-decoration: none;
   white-space: nowrap;
   transition:
@@ -211,8 +224,9 @@ button {
 }
 .btn--sm {
   height: 2.5rem;
-  padding: 0 1.1rem;
-  font-size: 0.85rem;
+  padding: 0 1rem;
+  font-size: 0.8125rem;
+  border-radius: 0.45rem;
 }
 .btn__arrow {
   width: 1rem;
@@ -263,17 +277,21 @@ html.js [data-reveal].is-in {
 }
 /* If the motion script fails for any reason, show everything. */
 html.no-motion [data-reveal],
-html.no-motion [data-intro],
-html.no-motion [data-lines] .line__in {
+html.no-motion [data-rise],
+html.no-motion .line__in {
   opacity: 1 !important;
   transform: none !important;
+}
+html.no-motion .line__in {
+  font-stretch: 125% !important;
 }
 
 .line {
   display: block;
   overflow: hidden;
-  padding-bottom: 0.08em;
-  margin-bottom: -0.08em;
+  padding-bottom: 0.06em;
+  margin-bottom: -0.06em;
+  white-space: nowrap;
 }
 .line__in {
   display: block;
@@ -281,10 +299,14 @@ html.no-motion [data-lines] .line__in {
 }
 html.js [data-lines] .line__in {
   transform: translateY(115%);
-  transition: transform 1.2s var(--ease-out-expo);
+  font-stretch: 80%;
+  transition:
+    transform 1.2s var(--ease-out-expo),
+    font-stretch 1.5s var(--ease-out-expo);
 }
 html.js [data-lines].is-in .line__in {
   transform: none;
+  font-stretch: 125%;
 }
 html.js [data-lines].is-in .line:nth-child(2) .line__in {
   transition-delay: 0.09s;
@@ -386,10 +408,12 @@ html.js [data-lines].is-in .line:nth-child(3) .line__in {
     scroll-behavior: auto;
   }
   html.js [data-reveal],
-  html.js [data-lines] .line__in {
+  html.js [data-lines] .line__in,
+  html.js .line__in {
     opacity: 1;
-    transform: none;
-    transition: none;
+    transform: none !important;
+    font-stretch: 125% !important;
+    transition: none !important;
   }
   *,
   *::before,

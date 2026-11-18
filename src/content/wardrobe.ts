@@ -52,6 +52,7 @@ export const items: Item[] = [
   { id: 'tee-grey', kind: 'tee', name: 'Grey tee', category: 'Tops', color: palette.grey, material: 'Cotton' },
   { id: 'blazer-navy', kind: 'blazer', name: 'Navy blazer', category: 'Layers', color: palette.navy, material: 'Wool' },
   { id: 'trousers-charcoal', kind: 'trousers', name: 'Charcoal trousers', category: 'Bottoms', color: palette.charcoal, material: 'Flannel' },
+  { id: 'sneaker-black', kind: 'sneaker', name: 'Black sneakers', category: 'Shoes', color: palette.black, material: 'Canvas' },
 ];
 
 const byId = Object.fromEntries(items.map((i) => [i.id, i])) as Record<string, Item>;
@@ -61,6 +62,7 @@ export interface Outfit {
   name: string;
   vibe: string;
   score: number;
+  /** Always in the order top, layer, bottom, shoes. */
   itemIds: [string, string, string, string];
 }
 
@@ -68,8 +70,9 @@ export const todaysFour: Outfit[] = [
   { id: 'off-duty', name: 'Off-duty', vibe: 'Relaxed, clear skies', score: 94, itemIds: ['tee-white', 'shirt-navy', 'jeans-indigo', 'sneaker-white'] },
   { id: 'clean-lines', name: 'Clean lines', vibe: 'Sharp, all-day', score: 91, itemIds: ['knit-charcoal', 'coat-camel', 'trousers-black', 'loafer-black'] },
   { id: 'layered', name: 'Layered up', vibe: 'Soft tailoring', score: 89, itemIds: ['shirt-ecru', 'blazer-olive', 'trousers-stone', 'loafer-oxblood'] },
-  { id: 'easy', name: 'Soft neutrals', vibe: 'Low effort, high polish', score: 86, itemIds: ['tee-grey', 'knit-charcoal', 'trousers-stone', 'sneaker-white'] },
+  { id: 'easy', name: 'Dressed down', vibe: 'Tailoring with sneakers', score: 86, itemIds: ['tee-grey', 'blazer-navy', 'trousers-charcoal', 'sneaker-black'] },
 ];
+// The four looks never share a piece, so all four can be laid out side by side.
 
 export interface Occasion {
   id: string;
@@ -89,4 +92,21 @@ export const occasions: Occasion[] = [
 export const resolve = (ids: readonly string[]): Item[] => ids.map((id) => byId[id]);
 
 export const weather = { temp: '68°', label: 'Clear', note: 'no coat needed' };
+
+/** The same morning under three skies. Drives the forecast demo in the story. */
+export interface Forecast {
+  id: 'clear' | 'rain' | 'cold';
+  label: string;
+  temp: string;
+  note: string;
+  itemIds: [string, string, string, string];
+  /** An extra layer laid beside the look, if the sky asks for one. */
+  extraId?: string;
+}
+
+export const forecasts: Forecast[] = [
+  { id: 'clear', label: 'Clear', temp: '68°', note: 'No coat needed.', itemIds: ['tee-white', 'shirt-navy', 'jeans-indigo', 'sneaker-white'] },
+  { id: 'rain', label: 'Rain', temp: '54°', note: 'Coat on. White sneakers stay home.', itemIds: ['tee-white', 'shirt-navy', 'jeans-indigo', 'sneaker-black'], extraId: 'coat-camel' },
+  { id: 'cold', label: 'Cold', temp: '36°', note: 'Merino under wool.', itemIds: ['knit-charcoal', 'coat-camel', 'trousers-black', 'loafer-black'] },
+];
 export const streakDays = 12;

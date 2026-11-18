@@ -1,296 +1,664 @@
 ---
 /**
- * Hero + product story. One phone stays put while five chapters scroll past,
- * in the order the morning actually happens.
+ * The morning, in six beats, on one pinned stage.
+ * The canvas (scene/stage.ts) is the picture; the copy for each beat is stacked
+ * on top and swapped as the matching spacer in .steps crosses the viewport.
+ * Without JavaScript the copy simply reads top to bottom.
  */
-import Garments from './Garments.astro';
-import Phone from './Phone.astro';
 import Cta from './Cta.astro';
-import { occasions } from '../content/wardrobe';
+import { items, todaysFour, occasions, forecasts } from '../content/wardrobe';
 import { site, cta } from '../site';
+
+const beats = [
+  { id: 'hero', key: 'night', label: 'Night' },
+  { id: 'looks', key: 'looks', label: 'Four looks' },
+  { id: 'wardrobe', key: 'wardrobe', label: 'Wardrobe' },
+  { id: 'forecast', key: 'forecast', label: 'Forecast' },
+  { id: 'wear', key: 'wear', label: 'Wear it' },
+  { id: 'styleme', key: 'styleme', label: 'Style Me' },
+];
+
+const icons: Record<string, string> = {
+  clear: '<circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M2.5 12h2.4M19.1 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M5.3 18.7 7 17M17 7l1.7-1.7"/>',
+  rain: '<path d="M7 15.5a4.5 4.5 0 0 1-.6-8.96A5.5 5.5 0 0 1 17 7.6a3.9 3.9 0 0 1 .3 7.9"/><path d="M8.5 18.5l-1 2.5M12.5 18.5l-1 2.5M16.5 18.5l-1 2.5"/>',
+  cold: '<path d="M12 2.5v19M3.8 7.25l16.4 9.5M3.8 16.75l16.4-9.5"/><path d="M9.5 4.2 12 6.4l2.5-2.2M9.5 19.8 12 17.6l2.5 2.2"/>',
+};
 ---
 
-<Garments />
+<section id="story" class="story" data-tone="night" aria-label="How Styleum works">
+  <div class="stage" id="stage">
+    <canvas class="stage__canvas" id="scene" aria-hidden="true"></canvas>
+    <div class="stage__shade" aria-hidden="true"></div>
 
-<section id="story" class="story" aria-label="How Styleum works">
-  <div class="story__phone" id="story-phone">
-    <Phone />
-  </div>
-
-  <!-- 9:00 -->
-  <div class="chapter chapter--hero" id="hero" data-chapter="0" data-screen="lock">
-    <div class="chapter__body hero__body">
-      <p class="eyebrow hero__eyebrow" data-intro>{site.ritualTime} AM · Every morning</p>
-      <h1 class="display h1 hero__title" id="hero-title" data-lines>
-        <span class="line"><span class="line__in">Wake up</span></span>
-        <span class="line"><span class="line__in"><em>styled.</em></span></span>
-      </h1>
-      <p class="lede hero__lede" data-intro>
-        Four outfits, built from the clothes you already own, waiting on your lock screen at {site.ritualTime}. No shopping. No staring into the closet.
-      </p>
-      <div class="hero__cta" data-intro>
-        <Cta variant="chalk" />
-        <a class="btn btn--ghost" href="#wardrobe">See the morning</a>
-      </div>
-      <p class="mono hero__note" data-intro>{cta.note}</p>
-    </div>
-  </div>
-
-  <!-- Wardrobe -->
-  <div class="chapter" id="wardrobe" data-chapter="1" data-screen="wardrobe">
-    <div class="chapter__body">
-      <p class="eyebrow">Once · Two minutes</p>
-      <h2 class="display h2">Photograph what you own.</h2>
-      <p class="lede muted">
-        One photo per piece. Styleum cuts the background, names the item, and reads its colour, fabric and cut. Twenty items is plenty. Two hundred is fine.
-      </p>
-      <ul class="facts mono">
-        <li>Background removed automatically</li>
-        <li>Colour, material and category tagged</li>
-        <li>Only the photos you choose, never your library</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Today's four -->
-  <div class="chapter" id="today" data-chapter="2" data-screen="today">
-    <div class="chapter__body">
-      <p class="eyebrow">{site.ritualTime} AM · Every day</p>
-      <h2 class="display h2">Four looks, ready before coffee.</h2>
-      <p class="lede muted">
-        Each morning Styleum builds four outfits from your wardrobe, checks them against the forecast where you are, and ranks them by how you actually dress.
-      </p>
-      <ul class="facts mono">
-        <li>68° and clear → no coat</li>
-        <li>Worn Monday → rested Tuesday</li>
-        <li>Ranked by your own history, not a trend</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Wear it -->
-  <div class="chapter" id="wear" data-chapter="3" data-screen="wear">
-    <div class="chapter__body">
-      <p class="eyebrow">9:01 AM · One tap</p>
-      <h2 class="display h2">Tap what you’ll wear.</h2>
-      <p class="lede muted">
-        One tap marks it worn. Every pick and every skip teaches Styleum your taste. The loafers you never choose stop showing up. The overshirt you love shows up more.
-      </p>
-      <ul class="facts mono">
-        <li>Streaks and outfit history</li>
-        <li>Learns from skips as much as picks</li>
-        <li>Nothing new to buy</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- Style Me -->
-  <div class="chapter" id="styleme" data-chapter="4" data-screen="styleme">
-    <div class="chapter__body">
-      <p class="eyebrow">Pro · Style Me</p>
-      <h2 class="display h2">Something specific?</h2>
-      <p class="lede muted">
-        Name the occasion and get a look built for it, from your own closet. Try one, the phone updates.
-      </p>
-      <div class="occ-chips" role="group" aria-label="Choose an occasion">
-        {occasions.map((o, i) => (
-          <button class="occ-chip" type="button" data-occ={o.id} aria-pressed={i === 0 ? 'true' : 'false'}>
-            {o.label}
-          </button>
+    <div class="stage__ui">
+      <div class="tags" id="scene-labels" aria-hidden="true">
+        {todaysFour.map((o, i) => (
+          <div class="tag tag--look" data-anchor={`look-${i}`} style={`--i:${i}`}>
+            <span class="tag__in">
+              <span class="tag__n">0{i + 1}</span>
+              <span class="tag__name">{o.name}</span>
+              <span class="tag__score">{o.score}</span>
+            </span>
+          </div>
+        ))}
+        {items.map((it, i) => (
+          <div class="tag tag--item" data-anchor={`item-${it.id}`} style={`--i:${i}`}>
+            <span class="tag__in">
+              <span class="tag__name">{it.name}</span>
+            </span>
+          </div>
         ))}
       </div>
+
+      <div class="copies">
+        <!-- 9:00 -->
+        <div class="copy copy--hero is-active" data-copy="night">
+          <p class="eyebrow" data-rise>Every morning at {site.ritualTime}</p>
+          <h1 class="display h1">
+            <span class="line"><span class="line__in">Wake up</span></span>
+            <span class="line"><span class="line__in">styled.</span></span>
+          </h1>
+          <p class="lede" data-rise>
+            Four outfits, built from the clothes you already own, waiting on your lock screen at {site.ritualTime}. No shopping. No staring into the closet.
+          </p>
+          <div class="copy__actions" data-rise>
+            <Cta variant="chalk" />
+            <a class="btn btn--ghost" href="#looks">Watch the morning</a>
+          </div>
+          <p class="note" data-rise>{cta.note}</p>
+        </div>
+
+        <!-- Four looks -->
+        <div class="copy" data-copy="looks">
+          <p class="eyebrow" data-rise>{site.ritualTime} AM · Every day</p>
+          <h2 class="display h2">
+            <span class="line"><span class="line__in">Four looks.</span></span>
+            <span class="line"><span class="line__in">Before</span></span>
+            <span class="line"><span class="line__in">coffee.</span></span>
+          </h2>
+          <p class="lede" data-rise>
+            Each morning Styleum lays out four outfits from your own wardrobe and ranks them by how you actually dress.
+          </p>
+          <ul class="facts" data-rise>
+            <li>Worn Monday, rested Tuesday</li>
+            <li>Ranked by your own history, not a trend</li>
+          </ul>
+        </div>
+
+        <!-- Wardrobe -->
+        <div class="copy" data-copy="wardrobe">
+          <p class="eyebrow" data-rise>Once · Two minutes</p>
+          <h2 class="display h2">
+            <span class="line"><span class="line__in">Shoot what</span></span>
+            <span class="line"><span class="line__in">you own.</span></span>
+            <span class="line"><span class="line__in">Once.</span></span>
+          </h2>
+          <p class="lede" data-rise>
+            One photo per piece. Styleum cuts the background, names the item, and reads its colour, fabric and cut. Twenty items is plenty. Two hundred is fine.
+          </p>
+          <ul class="facts" data-rise>
+            <li>Background removed automatically</li>
+            <li>Only the photos you choose, never your library</li>
+          </ul>
+        </div>
+
+        <!-- Forecast -->
+        <div class="copy" data-copy="forecast">
+          <p class="eyebrow" data-rise>Weather-checked</p>
+          <h2 class="display h2">
+            <span class="line"><span class="line__in">Dressed</span></span>
+            <span class="line"><span class="line__in">for the</span></span>
+            <span class="line"><span class="line__in">forecast.</span></span>
+          </h2>
+          <p class="lede" data-rise>
+            Every look is checked against the weather where you are, that morning. Change the sky and watch the outfit answer.
+          </p>
+          <div class="seg" role="group" aria-label="Choose a forecast" data-rise>
+            {forecasts.map((f, i) => (
+              <button class="seg__btn" type="button" data-forecast={f.id} data-note={f.note} aria-pressed={i === 0 ? 'true' : 'false'}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={icons[f.id]} />
+                <span class="seg__temp">{f.temp}</span>
+                <span class="seg__label">{f.label}</span>
+              </button>
+            ))}
+          </div>
+          <p class="note note--live" id="forecast-note" aria-live="polite" data-rise>{forecasts[0].note}</p>
+        </div>
+
+        <!-- Wear it -->
+        <div class="copy" data-copy="wear">
+          <p class="eyebrow" data-rise>9:01 AM · One tap</p>
+          <h2 class="display h2">
+            <span class="line"><span class="line__in">Tap it.</span></span>
+            <span class="line"><span class="line__in">Wear it.</span></span>
+          </h2>
+          <p class="lede" data-rise>
+            One tap marks it worn. Every pick and every skip teaches Styleum your taste. The loafers you never choose stop showing up. The overshirt you love shows up more.
+          </p>
+          <div class="picks" role="group" aria-label="Pick today’s look" data-rise>
+            {todaysFour.map((o, i) => (
+              <button class="pick" type="button" data-pick={i} aria-pressed={i === 0 ? 'true' : 'false'}>
+                <span class="pick__n">0{i + 1}</span>
+                <span class="pick__name">{o.name}</span>
+                <span class="pick__score">{o.score}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <!-- Style Me -->
+        <div class="copy" data-copy="styleme">
+          <p class="eyebrow" data-rise>Pro · Style Me</p>
+          <h2 class="display h2">
+            <span class="line"><span class="line__in">Something</span></span>
+            <span class="line"><span class="line__in">specific?</span></span>
+          </h2>
+          <p class="lede" data-rise>
+            Name the occasion and get a look built for it, from your own closet.
+          </p>
+          <div class="chips" role="group" aria-label="Choose an occasion" data-rise>
+            {occasions.map((o, i) => (
+              <button class="chip" type="button" data-occ={o.id} data-note={`${o.title}. ${o.note}`} aria-pressed={i === 0 ? 'true' : 'false'}>
+                {o.label}
+              </button>
+            ))}
+          </div>
+          <p class="note note--live" id="occasion-note" aria-live="polite" data-rise>{occasions[0].title}. {occasions[0].note}</p>
+        </div>
+      </div>
+
+      <ol class="rail" aria-hidden="true">
+        {beats.map((b, i) => (
+          <li class:list={['rail__tick', { 'is-on': i === 0 }]} data-rail={b.key}><span>{b.label}</span></li>
+        ))}
+      </ol>
+
+      <div class="cue" aria-hidden="true"><span></span>Scroll</div>
     </div>
+  </div>
+
+  <div class="steps" aria-hidden="true">
+    {beats.map((b) => <div class="step" id={b.id} data-beat={b.key}></div>)}
   </div>
 </section>
 
 <style>
   .story {
     position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    column-gap: clamp(2rem, 6vw, 7rem);
-    padding-inline: var(--gutter);
     background: var(--color-ink);
     color: var(--color-chalk);
+    --fg: var(--color-chalk);
+    --copy-w: min(44vw, 40rem);
   }
-  .story.is-day {
-    background: var(--color-chalk);
-    color: var(--color-ink);
+  .story[data-tone='day'] {
+    --fg: var(--color-ink);
   }
 
-  .story__phone {
-    grid-column: 2;
-    grid-row: 1 / span 5;
-    align-self: start;
+  /* ---------- Stage ---------- */
+  .stage {
     position: sticky;
     top: 0;
     height: 100vh;
-    height: 100svh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 2;
+    height: 100lvh;
+    overflow: hidden;
+    /* the picture before WebGL arrives, and if it never does */
+    background:
+      radial-gradient(60% 50% at 68% 46%, rgba(233, 180, 142, 0.34), rgba(91, 108, 158, 0.16) 46%, transparent 72%),
+      var(--color-ink);
+    transition: background-color 1.4s var(--ease-ios);
   }
-  .story__phone :global(.phone) {
-    width: min(390px, 40vh, 100%);
-    width: min(390px, 40svh, 100%);
+  .story[data-tone='day'] .stage {
+    background: #efede6;
   }
-
-  .chapter {
-    grid-column: 1;
-    min-height: 100vh;
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    padding-block: 4rem;
-  }
-  .chapter__body {
+  .stage__canvas {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    max-width: 38rem;
-    will-change: transform, opacity;
+    height: 100%;
+    display: block;
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-ios);
   }
-  .chapter .h2 {
-    margin: 1.25rem 0 1.5rem;
+  :global(html.scene-on) .stage__canvas {
+    opacity: 1;
+  }
+  .stage__shade {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(90deg, rgba(5, 6, 10, 0.72) 0%, rgba(5, 6, 10, 0.4) 34%, transparent 62%);
+    transition: opacity 1.2s var(--ease-ios);
+  }
+  .story[data-tone='day'] .stage__shade {
+    opacity: 0;
+  }
+  .stage__ui {
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 100vh;
+    height: 100svh;
+    color: var(--fg);
+    transition: color 1s var(--ease-ios) 0.15s;
   }
 
-  .chapter--hero {
-    align-items: flex-end;
-    padding-top: calc(var(--nav-h) + 3rem);
-    padding-bottom: clamp(3rem, 9vh, 6rem);
+  .steps {
+    position: relative;
+    margin-top: -100vh;
+    margin-top: -100lvh;
+    pointer-events: none;
   }
-  .hero__eyebrow {
-    margin-bottom: 1.5rem;
+  .step {
+    height: 105vh;
+    height: 105svh;
   }
-  .hero__title {
-    margin-bottom: 1.75rem;
+
+  /* ---------- Copy ---------- */
+  .copies {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
   }
-  .hero__lede {
-    margin-bottom: 2.25rem;
+  .copy {
+    position: absolute;
+    left: var(--gutter);
+    bottom: clamp(3rem, 9vh, 6rem);
+    width: var(--copy-w);
+    opacity: 0;
+    transition: opacity 0.4s var(--ease-ios);
   }
-  .hero__cta {
+  .copy.is-active {
+    opacity: 1;
+    transition: opacity 0.5s var(--ease-ios) 0.2s;
+  }
+  .copy.is-active > * {
+    pointer-events: auto;
+  }
+  .copy .h1,
+  .copy .h2 {
+    margin: 1.1rem 0 1.5rem;
+  }
+  .copy .lede {
+    max-width: 30rem;
+    opacity: 0.86;
+  }
+  .copy__actions {
     display: flex;
     flex-wrap: wrap;
     gap: 0.75rem;
-    margin-bottom: 1.25rem;
+    margin: 2rem 0 1.1rem;
   }
-  .hero__note {
-    opacity: 0.55;
+  .note {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    opacity: 0.6;
+    margin: 0;
   }
-  :global(html.js) [data-intro] {
+  .note--live {
+    margin-top: 1rem;
+    opacity: 0.78;
+    min-height: 1.3em;
+  }
+
+  /* Headlines stretch awake: each line rises and widens into place */
+  :global(html.js) .copy .line__in {
+    transform: translateY(108%);
+    font-stretch: 78%;
+    transition:
+      transform 0.5s var(--ease-ios),
+      font-stretch 0.5s var(--ease-ios);
+  }
+  :global(html.is-ready) .copy.is-active .line__in {
+    transform: none;
+    font-stretch: 125%;
+    transition:
+      transform 1.1s var(--ease-out-expo) calc(0.25s + var(--l, 0) * 0.09s),
+      font-stretch 1.4s var(--ease-out-expo) calc(0.25s + var(--l, 0) * 0.09s);
+  }
+  .copy .line:nth-child(2) { --l: 1; }
+  .copy .line:nth-child(3) { --l: 2; }
+
+  :global(html.js) .copy [data-rise] {
     opacity: 0;
-    transform: translateY(18px);
+    transform: translateY(14px);
+    transition:
+      opacity 0.3s,
+      transform 0.3s;
   }
+  :global(html.is-ready) .copy.is-active [data-rise] {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.9s var(--ease-out-expo) calc(0.4s + var(--r, 0) * 0.07s),
+      transform 0.9s var(--ease-out-expo) calc(0.4s + var(--r, 0) * 0.07s);
+  }
+  :global(html.is-ready) .copy.is-active .lede[data-rise] {
+    opacity: 0.86;
+  }
+  :global(html.is-ready) .copy.is-active .note[data-rise] {
+    opacity: 0.6;
+  }
+  :global(html.is-ready) .copy.is-active .note--live[data-rise] {
+    opacity: 0.78;
+  }
+  .copy > :nth-child(3) { --r: 1; }
+  .copy > :nth-child(4) { --r: 2; }
+  .copy > :nth-child(5) { --r: 3; }
 
   .facts {
     list-style: none;
     padding: 0;
-    margin: 2rem 0 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.65rem;
-    opacity: 0.68;
+    margin: 1.6rem 0 0;
+    display: grid;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
   }
   .facts li {
     display: flex;
-    gap: 0.8rem;
-    align-items: baseline;
+    gap: 0.7rem;
+    align-items: center;
+    opacity: 0.72;
   }
   .facts li::before {
-    content: '—';
-    opacity: 0.5;
+    content: '';
+    width: 0.9rem;
+    height: 1px;
+    background: currentColor;
   }
 
-  .occ-chips {
+  /* ---------- Controls ---------- */
+  .seg,
+  .picks,
+  .chips {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
-    margin-top: 2rem;
+    gap: 0.5rem;
+    margin-top: 1.75rem;
   }
-  .occ-chip {
-    padding: 0.75rem 1.15rem;
-    border-radius: 999px;
-    border: 1px solid color-mix(in srgb, currentColor 24%, transparent);
+  .seg__btn,
+  .pick,
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    height: 2.9rem;
+    padding: 0 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid color-mix(in srgb, currentColor 22%, transparent);
+    background: color-mix(in srgb, var(--color-chalk) 55%, transparent);
+    font-size: 0.875rem;
     font-weight: 600;
-    font-size: 0.9rem;
     transition:
       background-color 0.35s,
       color 0.35s,
       border-color 0.35s,
       transform 0.6s var(--ease-out-expo);
   }
-  .occ-chip:hover {
+  .seg__btn:hover,
+  .pick:hover,
+  .chip:hover {
     border-color: currentColor;
     transform: translateY(-2px);
   }
-  .occ-chip[aria-pressed='true'] {
+  .seg__btn[aria-pressed='true'],
+  .pick[aria-pressed='true'],
+  .chip[aria-pressed='true'] {
     background: var(--color-ink);
-    color: var(--color-chalk);
     border-color: var(--color-ink);
+    color: var(--color-chalk);
+  }
+  .seg__btn svg {
+    width: 1.15rem;
+    height: 1.15rem;
+  }
+  .seg__temp {
+    font-variant-numeric: tabular-nums;
+  }
+  .seg__label {
+    opacity: 0.6;
+    font-weight: 500;
+  }
+  .pick__n,
+  .pick__score {
+    font-variant-numeric: tabular-nums;
+    opacity: 0.5;
+    font-weight: 500;
   }
 
+  /* ---------- Tags pinned to the sheet ---------- */
+  .tags {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    color: var(--color-ink);
+  }
+  .tag {
+    position: absolute;
+    left: 0;
+    top: 0;
+    will-change: transform;
+  }
+  .tag__in {
+    position: absolute;
+    left: 0;
+    top: 0;
+    transform: translate(-50%, 0) translateY(8px);
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    white-space: nowrap;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    opacity: 0;
+    transition:
+      opacity 0.3s,
+      transform 0.3s;
+  }
+  .tag.is-on .tag__in {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    transition:
+      opacity 0.8s var(--ease-out-expo) calc(0.9s + var(--i) * 0.06s),
+      transform 0.8s var(--ease-out-expo) calc(0.9s + var(--i) * 0.06s);
+  }
+  .tag__n,
+  .tag__score,
+  .tag__meta {
+    font-weight: 500;
+    opacity: 0.5;
+    font-variant-numeric: tabular-nums;
+  }
+  .tag--item .tag__in {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    font-size: 0.6875rem;
+    line-height: 1.3;
+  }
+
+  /* ---------- Rail and cue ---------- */
+  .rail {
+    position: absolute;
+    right: var(--gutter);
+    top: 50%;
+    transform: translateY(-50%);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: none;
+    flex-direction: column;
+    gap: 0.9rem;
+    align-items: flex-end;
+  }
+  .rail__tick {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .rail__tick span {
+    opacity: 0;
+    transform: translateX(6px);
+    transition:
+      opacity 0.4s,
+      transform 0.6s var(--ease-out-expo);
+  }
+  .rail__tick::after {
+    content: '';
+    width: 0.9rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.35;
+    transition:
+      width 0.6s var(--ease-out-expo),
+      opacity 0.4s;
+  }
+  .rail__tick.is-on span {
+    opacity: 1;
+    transform: none;
+  }
+  .rail__tick.is-on::after {
+    width: 2rem;
+    opacity: 1;
+  }
+
+  .cue {
+    position: absolute;
+    right: var(--gutter);
+    bottom: clamp(1.5rem, 5vh, 3rem);
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.7;
+    transition: opacity 0.5s;
+  }
+  .cue span {
+    width: 1px;
+    height: 2.4rem;
+    background: linear-gradient(currentColor, transparent);
+    transform-origin: top;
+    animation: cue 2.2s var(--ease-ios) infinite;
+  }
+  .story:not([data-beat='night']) .cue {
+    opacity: 0;
+  }
+  @keyframes cue {
+    0% { transform: scaleY(0); }
+    45% { transform: scaleY(1); }
+    100% { transform: scaleY(1); opacity: 0; }
+  }
+
+  @media (min-width: 900px) {
+    .rail {
+      display: flex;
+    }
+  }
+
+  /* ---------- Phones: picture above, words below ---------- */
   @media (max-width: 899px) {
-    :root {
-      --phone-zone: 50svh;
-    }
     .story {
-      grid-template-columns: 1fr;
-      grid-template-rows: auto var(--phone-zone) auto auto auto auto;
-      column-gap: 0;
-      /* On phones the sunrise is a class toggle, not a scroll scrub */
-      transition:
-        background-color 0.9s var(--ease-ios),
-        color 0.9s var(--ease-ios);
+      --copy-w: auto;
     }
-    .story__phone {
-      grid-column: 1;
-      grid-row: 2 / span 5;
-      top: var(--nav-h);
-      height: calc(var(--phone-zone) - var(--nav-h));
-      z-index: 3;
+    .stage__shade {
+      background: linear-gradient(0deg, rgba(5, 6, 10, 0.88) 0%, rgba(5, 6, 10, 0.6) 34%, transparent 58%);
     }
-    .story__phone :global(.phone) {
-      width: min(18svh, 56vw);
+    .copy {
+      right: var(--gutter);
+      bottom: max(1.5rem, env(safe-area-inset-bottom));
     }
-    .chapter--hero {
-      grid-row: 1;
-      min-height: 0;
-      align-items: flex-start;
-      padding-top: calc(var(--nav-h) + 3.5rem);
-      padding-bottom: 2.5rem;
+    .copy .h1,
+    .copy .h2 {
+      margin: 0.7rem 0 0.9rem;
     }
-    .chapter:nth-child(3) { grid-row: 3; }
-    .chapter:nth-child(4) { grid-row: 4; }
-    .chapter:nth-child(5) { grid-row: 5; }
-    .chapter:nth-child(6) { grid-row: 6; }
-    .chapter:not(.chapter--hero) {
-      min-height: 100svh;
-      align-items: flex-end;
-      padding-top: 0;
-      padding-bottom: 6svh;
+    .copy .lede {
+      font-size: 0.975rem;
+      line-height: 1.42;
     }
-    .chapter__body {
-      max-width: none;
-    }
-    .chapter .h2 {
-      font-size: clamp(2rem, 9.5vw, 2.5rem);
-      margin: 0.75rem 0 0.9rem;
-    }
-    .chapter .lede {
-      font-size: 1rem;
-      line-height: 1.45;
+    .copy__actions {
+      margin: 1.2rem 0 0.8rem;
+      gap: 0.5rem;
     }
     .facts {
-      margin-top: 1.1rem;
-      gap: 0.35rem;
-      font-size: 0.78rem;
+      margin-top: 1rem;
+      font-size: 0.8125rem;
+      gap: 0.3rem;
     }
-    .occ-chips {
+    .seg,
+    .picks,
+    .chips {
       margin-top: 1.1rem;
-      gap: 0.45rem;
+      gap: 0.4rem;
     }
-    .occ-chip {
-      padding: 0.6rem 0.95rem;
-      font-size: 0.85rem;
+    .seg__btn,
+    .pick,
+    .chip {
+      height: 2.6rem;
+      padding: 0 0.8rem;
+      font-size: 0.8125rem;
+    }
+    .pick__score,
+    .seg__label {
+      display: none;
+    }
+    .tag--item {
+      display: none;
+    }
+    .tag__in {
+      font-size: 0.6875rem;
+      gap: 0.3rem;
+    }
+    .tag__n {
+      display: none;
+    }
+    .cue {
+      display: none;
+    }
+    .step {
+      height: 95svh;
+    }
+  }
+
+  /* ---------- No script: a plain, readable column ---------- */
+  :global(html:not(.js)) .stage {
+    position: static;
+    height: auto;
+    background: var(--color-chalk);
+  }
+  :global(html:not(.js)) .stage__ui {
+    position: static;
+    height: auto;
+    color: var(--color-ink);
+    padding: calc(var(--nav-h) + 2rem) 0 3rem;
+  }
+  :global(html:not(.js)) .copies,
+  :global(html:not(.js)) .copy {
+    position: static;
+    opacity: 1;
+  }
+  :global(html:not(.js)) .copy {
+    padding: 2.5rem var(--gutter);
+    width: auto;
+    max-width: 44rem;
+  }
+  :global(html:not(.js)) .stage__canvas,
+  :global(html:not(.js)) .stage__shade,
+  :global(html:not(.js)) .steps,
+  :global(html:not(.js)) .tags,
+  :global(html:not(.js)) .rail,
+  :global(html:not(.js)) .cue {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cue span {
+      animation: none;
     }
   }
 </style>
