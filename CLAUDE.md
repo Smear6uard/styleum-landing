@@ -45,10 +45,13 @@ src/
 ├── site.ts                 # Facts + derived CTA
 ├── content/
 │   ├── wardrobe.ts         # Demo wardrobe, today's four (never share a piece), occasions, forecasts
-│   ├── garments.ts         # Garment drawings as path data: one source for the SVG symbols and the 3D cloth
+│   ├── garments.ts         # Garment drawings as data (body, seams, bands, openings, buttons, stitching, folds):
+│   │                       #   one source for the SVG symbols and the 3D cloth
 │   └── faqs.ts             # FAQ copy + FAQPage schema source
 ├── scene/                  # three.js, loaded lazily by scripts/motion.ts
-│   ├── cloth.ts            # Bakes each garment kind into colour/normal/height maps; one plane per item
+│   ├── bake.ts             # Pure typed-array bake: relief + weave → normal map, coarse height, colour per item
+│   ├── bake.worker.ts      # Runs bake.ts in a worker pool (falls back to the main thread)
+│   ├── cloth.ts            # Turns baked maps into meshes and materials; one slightly warped plane per item
 │   ├── phone.ts            # The 3D phone; its lock screen is painted to a canvas and lights the scene
 │   ├── layouts.ts          # Choreography: where every garment lies in each beat, wide and tall variants
 │   └── stage.ts            # Renderer, light (sun through a window cookie), camera fit, easing, public API
@@ -80,6 +83,14 @@ src/
   layout; the stage picks whichever shows the clothes larger. Do not hard-code positions per breakpoint.
 - To add a beat: add a layout in `scene/layouts.ts`, a `.copy` and a `.step` in `Story.astro`. To add a garment:
   add its drawing in `content/garments.ts` and an item in `content/wardrobe.ts`. It appears in both renderers.
+- Garments are drawn the way they are made. Use the helpers in `garments.ts`: `seam` (sinks), `panel`/`band`
+  (a layer on top), `lip` (the shadow line at a layer's edge, no groove), `inside` (the opening you see into),
+  `paint`/`stitch`/`button` (their own colour, resolved per item), `fold` (creases, 3D only). Shoes are pairs
+  seen from above with `profile: 'shoe'`.
+- Cloth `thickness` must stay under 0.017 and `LEVEL` in `stage.ts` above the tallest cloth, or a thick piece
+  cuts through whatever is laid on it. The lit relief does not depend on thickness, so thin is free.
+- `bake.ts` must stay free of three.js and DOM access (it runs in a worker). Texture size is 768 on desktop and
+  512 on touch devices; the bake takes about a second on a laptop.
 - One canvas, two rooms: near the footer `motion.ts` moves the canvas into `FinalCTA` (`beat: 'tomorrow'`) and
   back. The phone there shows the visitor's real time.
 - No WebGL, or no JS: the stage shows a CSS gradient and the copy still reads (stacked, without JS).

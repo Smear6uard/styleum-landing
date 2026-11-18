@@ -89,7 +89,8 @@ function night(portrait: boolean): Layout {
     poses[id] = {
       x: Math.cos(a) * rx * d,
       y: Math.sin(a) * ry * d + 0.1,
-      l: i % 5,
+      // shoes sit on top of the pile: nothing soft should cut through a sole
+      l: isShoe(id) ? 5 + (i % 2) : i % 5,
       r: (rand() - 0.5) * 2.6,
       s: 0.98 + rand() * 0.1,
     };

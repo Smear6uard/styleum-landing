@@ -4,9 +4,10 @@
  * is a <use> of one of these symbols, coloured with currentColor.
  * The drawings themselves live in content/garments.ts, shared with the 3D scene.
  */
-import { shapes } from '../content/garments';
+import { shapes, paintHex } from '../content/garments';
 
 const kinds = Object.entries(shapes);
+const ink = (tone: string, color?: string) => (tone === 'paint' ? (paintHex[color ?? ''] ?? color ?? '#000') : tone === 'light' ? '#fff' : '#000');
 ---
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -14,15 +15,15 @@ const kinds = Object.entries(shapes);
     {kinds.map(([kind, shape]) => (
       <symbol id={`g-${kind}`} viewBox="0 0 100 100">
         <path d={shape.body} fill="currentColor" stroke-linejoin="round" />
-        {shape.details.map((p) => {
-          const ink = p.tone === 'light' ? '#fff' : '#000';
-          if (p.c) return <circle cx={p.c[0]} cy={p.c[1]} r={p.c[2]} fill={ink} fill-opacity={p.opacity} />;
-          if (p.mode === 'fill') return <path d={p.d} fill={ink} fill-opacity={p.opacity} />;
+        {shape.details.filter((p) => !p.soft).map((p) => {
+          const c = ink(p.tone, p.color);
+          if (p.c) return <circle cx={p.c[0]} cy={p.c[1]} r={p.c[2]} fill={c} fill-opacity={p.opacity} />;
+          if (p.mode === 'fill') return <path d={p.d} fill={c} fill-opacity={p.opacity} />;
           return (
             <path
               d={p.d}
               fill="none"
-              stroke={ink}
+              stroke={c}
               stroke-opacity={p.opacity}
               stroke-width={p.width}
               stroke-linecap={p.round ? 'round' : undefined}

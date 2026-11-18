@@ -4,8 +4,10 @@
  * Nothing here knows about scroll; scripts/motion.ts drives it through the API.
  */
 import * as THREE from 'three';
+import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { items } from '../content/wardrobe';
-import { blur, createGarment, prepareCloth } from './cloth';
+import { blur } from './bake';
+import { createGarment, prepareCloth } from './cloth';
 import { createPhone } from './phone';
 import { layoutFor, type Layout, type Pose, type StoryState } from './layouts';
 
@@ -52,7 +54,7 @@ interface Actor {
 
 const FOV = 27;
 const LEVEL = 0.028;
-const BASE_Z = 0.03;
+const BASE_Z = 0.008;
 const TAU = Math.PI * 2;
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
@@ -128,8 +130,8 @@ function windowCookie(): THREE.CanvasTexture {
 
 export async function createStage(canvas: HTMLCanvasElement, opts: { reduced: boolean; labels?: HTMLElement | null }): Promise<Stage> {
   const coarse = window.matchMedia('(pointer: coarse)').matches || window.innerWidth < 900;
-  const quality = coarse ? { texture: 512, segments: 64, shadow: 1024, dpr: 1.75 } : { texture: 512, segments: 96, shadow: 2048, dpr: 2 };
-  await prepareCloth(quality.texture);
+  const quality = coarse ? { texture: 512, segments: 56, shadow: 1024, dpr: 1.75 } : { texture: 768, segments: 80, shadow: 2048, dpr: 2 };
+  await prepareCloth(items, quality.texture);
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: false, powerPreference: 'high-performance' });
   renderer.outputColorSpace = THREE.SRGBColorSpace;
@@ -194,8 +196,18 @@ export async function createStage(canvas: HTMLCanvasElement, opts: { reduced: bo
     vx: 0,
     vy: 0,
   });
+  // Polished leather needs a room to reflect, or it reads as black plastic.
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  const room = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  pmrem.dispose();
+  const polished: THREE.MeshPhysicalMaterial[] = [];
   items.forEach((item, i) => {
-    const mesh = createGarment(item, quality);
+    const mesh = createGarment(item, quality.segments);
+    if (mesh.userData.polished) {
+      const m = mesh.material as THREE.MeshPhysicalMaterial;
+      m.envMap = room;
+      polished.push(m);
+    }
     scene.add(mesh);
     actors.set(item.id, makeActor(mesh, i));
   });
@@ -446,6 +458,7 @@ export async function createStage(canvas: HTMLCanvasElement, opts: { reduced: bo
     moon.intensity = lerp(0.42, 0, smooth(0, 0.6, day));
     (scene.background as THREE.Color).copy(C.nightSky).lerp(C.daySky, smooth(0.1, 0.9, day));
     scene.fog!.color.copy(scene.background as THREE.Color);
+    for (const m of polished) m.envMapIntensity = lerp(0.04, 0.26, day) * (1 - light.rain * 0.4);
     phone.glow.intensity = 1.25 * Math.min(1, phone.wake * 1.6) * (1 - day * 0.9);
 
     renderer.render(scene, camera);
